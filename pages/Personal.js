@@ -26,9 +26,10 @@ export default function Personal() {
                                      size={30}/>}
                 centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                 rightComponent={<Icon name='home'
-                                      onPress={() => this.props.navigation.navigate('Home')}
+                                      onPress={() => navigation.navigate('Login')}
                                       size={30}/>}
             />
+
             <View style={styles.container}>
 
                 <View style={styles.content}>
