@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Input, CheckBox, Header, Icon} from '@rneui/themed'
 import {Button} from "@rneui/base";
 // import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
-import {DataTable} from 'react-native-paper';
+import { DataTable } from 'react-native-paper';
 import {useNavigation} from "@react-navigation/native";
 export default function Spending() {
 
@@ -23,11 +23,6 @@ export default function Spending() {
 
             <Text style={{textAlign: 'center'}}>Spending Breakdown</Text>
 
-            {/*<SearchBar*/}
-            {/*    placeholder="Type Here..."*/}
-            {/*    onChangeText={updateSearch}*/}
-            {/*    value={search}*/}
-            {/*/>*/}
 
             <DataTable>
                 <DataTable.Header>
