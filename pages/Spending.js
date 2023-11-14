@@ -32,35 +32,42 @@ export default function Spending() {
                 </DataTable.Header>
 
                 <DataTable.Row>
-                    <DataTable.Cell>Car</DataTable.Cell>
-                    <DataTable.Cell>2000</DataTable.Cell>
-                    <DataTable.Cell>
-                        <Button title="Tax" style={{ marginRight: 10 }}/>
-                        <Button title="Plan"/>
+                    <DataTable.Cell style={{flex:2}}>Car</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>2000</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Button title="Tax" style={{ marginRight: 10 }}/>
+                            <Button title="Plan"/>
+                        </View>
                     </DataTable.Cell>
                 </DataTable.Row>
 
                 <DataTable.Row>
-                    <DataTable.Cell>Computer</DataTable.Cell>
-                    <DataTable.Cell>2500</DataTable.Cell>
-                    <DataTable.Cell>
-                        <Button title="Tax" style={{ marginRight: 10 }}/>
-                        <Button title="Plan"/>
+                    <DataTable.Cell style={{flex:2}}>Computer</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>2500</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Button title="Tax" style={{ marginRight: 10 }}/>
+                            <Button title="Plan"/>
+                        </View>
                     </DataTable.Cell>
                 </DataTable.Row>
 
                 <DataTable.Row>
-                    <DataTable.Cell>Prime membership</DataTable.Cell>
-                    <DataTable.Cell>15</DataTable.Cell>
-                    <DataTable.Cell>
-                        <Button title="Tax" style={{ marginRight: 10 }}/>
-                        <Button title="Plan"/>
+                    <DataTable.Cell style={{flex:2}}>Prime membership</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>15</DataTable.Cell>
+                    <DataTable.Cell style={{flex:1}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Button title="Tax" style={{ marginRight: 10 }}/>
+                            <Button title="Plan"/>
+                        </View>
                     </DataTable.Cell>
                 </DataTable.Row>
 
             </DataTable>
 
             <Button
+
                 buttonStyle={{width: 150}}
                 containerStyle={{margin: 5}}
                 disabledStyle={{

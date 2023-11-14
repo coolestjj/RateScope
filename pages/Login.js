@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Input, CheckBox, Icon, Header} from '@rneui/themed'
 import {Button} from "@rneui/base";
 import {NavigationContainer} from '@react-navigation/native';
 
+const windowWidth = Dimensions.get('window').width;
 export default class Login extends Component {
     render() {
         return (
             <>
                 <Header
+                    
                     backgroundColor="green"
                     backgroundImageStyle={{}}
                     barStyle="default"
                     centerComponent={{
                         text: "RateScope",
-                        style: {color: "#fff", fontSize: 40},
+                        style: {color: "#fff", fontSize: windowWidth / 12},
                     }}
                     centerContainerStyle={{}}
                     containerStyle={{}}
