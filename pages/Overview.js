@@ -1,31 +1,45 @@
-import React, {Component, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Input, CheckBox, Header, Icon} from '@rneui/themed'
-import {Button} from "@rneui/base";
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Header, Icon, Button } from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
-import PieChart from "react-native-pie-chart";
-import {useNavigation} from "@react-navigation/native";
+import PieChart from 'react-native-pie-chart';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function Overview() {
+const Overview = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-    const navigation = useNavigation();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'This month', value: 'monthly' },
+    { label: 'This year', value: 'yearly' },
+    { label: 'Historical accumulation', value: 'total' },
+  ]);
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
-        {label: 'This month', value: 'monthly'},
-        {label: 'This year', value: 'yearly'},
-        {label: 'Historical accumulation', value: 'total'},
-    ]);
 
-    const widthAndHeight = 250
-    const series = [100, 200, 300]
-    const sliceColor = ['#fbd203', '#ffb300', '#ff9100']
+  const [spendingData, setSpendingData] = useState([]);
 
-    return (
-        <>
+  useEffect(() => {
+    // Retrieve spending data from route params
+    if (route.params && route.params.spendingData) {
+      setSpendingData(route.params.spendingData);
+    }
+  }, [route.params]);
 
-            <Header
+  const widthAndHeight = 250;
+  const series = [100, 200, 300];
+  const sliceColor = ['#fbd203', '#ffb300', '#ff9100'];
+
+
+  // Function to calculate the total payment from spendingData
+  const calculateTotalPayment = () => {
+    return spendingData.reduce((total, item) => total + item.payment, 0);
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Header
                 leftComponent={<Icon name='menu'
                                      onPress={() => this.props.navigation.openDrawer()}
                                      size={30}/>}
@@ -33,48 +47,83 @@ export default function Overview() {
                 rightComponent={<Icon name='home'
                                       onPress={() => navigation.navigate('Login')}
                                       size={30}/>}
-            />
+        />
 
-            <Text style={{textAlign: 'center'}}>Spending Overview</Text>
+      <Text style={styles.pageTitle}>Spending Overview</Text>
 
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        containerStyle={styles.dropdownContainer}
+      />
 
-            <DropDownPicker open={open}
-                            value={value}
-                            items={items}
-                            setOpen={setOpen}
-                            setValue={setValue}
-                            setItems={setItems}
-            />
+      <View style={styles.chartContainer}>
+        <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor} />
+      </View>
 
-            <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor} />
+      <Text style={styles.totalPaymentText}>
+        Total Payment: ${calculateTotalPayment().toFixed(2)}
+      </Text>
 
-            <Button
-                buttonStyle={{width: 150}}
-                containerStyle={{margin: 5}}
-                disabledStyle={{
-                    borderWidth: 2,
-                    borderColor: "#00ff2a"
-                }}
-                disabledTitleStyle={{color: "#006fff"}}
-                linearGradientProps={null}
-                icon={
-                    <Icon name="arrow-right"
-                          size={15}
-                          color="#006FFFFF"/>
-                }
-                iconContainerStyle={{background: "#00ff2a"}}
-                iconRight
-                loadingProps={{animating: true}}
-                loadingStyle={{}}
-                // navigate to Spending
-                onPress={() => navigation.navigate('Saving')}
-                title="Start Planing"
-                titleProps={{}}
-                titleStyle={{marginHorizontal: 5}}
-                type="clear"
-            />
+      <Button
+        buttonStyle={styles.startPlanningButton}
+        containerStyle={styles.buttonContainer}
+        icon={<Icon name='arrow-right' size={15} color='#006FFFFF' />}
+        iconContainerStyle={{ backgroundColor: '#00ff2a' }}
+        iconRight
+        onPress={() => navigation.navigate('Saving')}
+        title='Start Planning'
+        type='clear'
+      />
 
-        </>
-    )
+      <Button
+        buttonStyle={styles.backButton}
+        containerStyle={styles.buttonContainer}
+        icon={<Icon name='arrow-left' size={15} color='#006FFFFF' />}
+        iconContainerStyle={{ backgroundColor: '#ff3d00' }}
+        iconRight
+        onPress={() => navigation.navigate('Spending')}
+        title='Go Back'
+        type='clear'
+      />
+    </ScrollView>
+  );
+};
 
-}
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    alignItems: 'center',
+
+    padding: 16,
+  },
+  pageTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 16,
+  },
+  dropdownContainer: {
+    width: '80%',
+    marginVertical: 16,
+  },
+  chartContainer: {
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  startPlanningButton: {
+    width: '100%',
+  },
+  backButton: {
+    width: '100%',
+  },
+  buttonContainer: {
+    marginVertical: 8,
+  },
+});
+
+export default Overview;

@@ -9,6 +9,13 @@ export default function Spending() {
 
     const navigation = useNavigation();
 
+  // Sample spending data
+  const spendingData = [
+    { name: 'Car', payment: 2000, optimizer: ['Tax', 'Plan'] },
+    { name: 'Computer', payment: 2500, optimizer: ['Tax', 'Plan'] },
+    { name: 'Prime membership', payment: 15, optimizer: ['Tax', 'Plan'] },
+  ];
+
     return (
         <>
             <Header
@@ -86,7 +93,7 @@ export default function Spending() {
                 loadingProps={{animating: true}}
                 loadingStyle={{}}
                 // navigate to Spending
-                onPress={() => navigation.navigate('Overview')}
+                onPress={() => navigation.navigate('Overview', { spendingData })}
                 title="Start Planing"
                 titleProps={{}}
                 titleStyle={{marginHorizontal: 5}}
