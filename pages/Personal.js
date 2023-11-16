@@ -5,6 +5,7 @@ import {Button} from "@rneui/base";
 // import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useNavigation} from '@react-navigation/native';
+
 export default function Personal() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
@@ -22,7 +23,7 @@ export default function Personal() {
         <>
             <Header
                 leftComponent={<Icon name='menu'
-                                     onPress={() => this.props.navigation.openDrawer()}
+                                     onPress={() => navigation.navigate.openDrawer()}
                                      size={30}/>}
                 centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                 rightComponent={<Icon name='home'

@@ -38,59 +38,71 @@ const Overview = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Header
-                leftComponent={<Icon name='menu'
-                                     onPress={() => this.props.navigation.openDrawer()}
-                                     size={30}/>}
-                centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
-                rightComponent={<Icon name='home'
-                                      onPress={() => navigation.navigate('Login')}
-                                      size={30}/>}
+    <>
+        <Header
+            leftComponent={<Icon name='menu'
+                                 onPress={() => this.props.navigation.openDrawer()}
+                                 size={30}/>}
+            centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
+            rightComponent={<Icon name='home'
+                                  onPress={() => navigation.navigate('Login')}
+                                  size={30}/>}
         />
 
-      <Text style={styles.pageTitle}>Spending Overview</Text>
+        <ScrollView contentContainerStyle={styles.container}>
+        {/*<Header*/}
+        {/*          leftComponent={<Icon name='menu'*/}
+        {/*                               onPress={() => this.props.navigation.openDrawer()}*/}
+        {/*                               size={30}/>}*/}
+        {/*          centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}*/}
+        {/*          rightComponent={<Icon name='home'*/}
+        {/*                                onPress={() => navigation.navigate('Login')}*/}
+        {/*                                size={30}/>}*/}
+        {/*  />*/}
 
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        containerStyle={styles.dropdownContainer}
-      />
+        <Text style={styles.pageTitle}>Spending Overview</Text>
 
-      <View style={styles.chartContainer}>
-        <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor} />
-      </View>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          containerStyle={styles.dropdownContainer}
+        />
 
-      <Text style={styles.totalPaymentText}>
-        Total Payment: ${calculateTotalPayment().toFixed(2)}
-      </Text>
+        <View style={styles.chartContainer}>
+          <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor} />
+        </View>
 
-      <Button
-        buttonStyle={styles.startPlanningButton}
-        containerStyle={styles.buttonContainer}
-        icon={<Icon name='arrow-right' size={15} color='#006FFFFF' />}
-        iconContainerStyle={{ backgroundColor: '#00ff2a' }}
-        iconRight
-        onPress={() => navigation.navigate('Saving')}
-        title='Start Planning'
-        type='clear'
-      />
+        <Text style={styles.totalPaymentText}>
+          Total Payment: ${calculateTotalPayment().toFixed(2)}
+        </Text>
 
-      <Button
-        buttonStyle={styles.backButton}
-        containerStyle={styles.buttonContainer}
-        icon={<Icon name='arrow-left' size={15} color='#006FFFFF' />}
-        iconContainerStyle={{ backgroundColor: '#ff3d00' }}
-        iconRight
-        onPress={() => navigation.navigate('Spending')}
-        title='Go Back'
-        type='clear'
-      />
-    </ScrollView>
+        <Button
+          buttonStyle={styles.startPlanningButton}
+          containerStyle={styles.buttonContainer}
+          icon={<Icon name='arrow-right' size={15} color='#006FFFFF' />}
+          iconContainerStyle={{ backgroundColor: '#00ff2a' }}
+          iconRight
+          onPress={() => navigation.navigate('Saving')}
+          title='Start Planning'
+          type='clear'
+        />
+
+        <Button
+          buttonStyle={styles.backButton}
+          containerStyle={styles.buttonContainer}
+          icon={<Icon name='arrow-left' size={15} color='#006FFFFF' />}
+          iconContainerStyle={{ backgroundColor: '#ff3d00' }}
+          iconRight
+          onPress={() => navigation.navigate('Spending')}
+          title='Go Back'
+          type='clear'
+        />
+      </ScrollView>
+    </>
   );
 };
 
