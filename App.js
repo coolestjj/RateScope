@@ -5,11 +5,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Personal from "./pages/Personal";
 import Spending from "./pages/Spending";
-import {View, Text} from "react-native";
+import {View, Text, LogBox} from "react-native";
 import Overview from "./pages/Overview";
 import Saving from "./pages/Saving";
 import Register from "./pages/Register";
 // import Menu from "./pages/Menu";
+
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 export default function App() {
