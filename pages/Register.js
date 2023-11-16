@@ -5,12 +5,12 @@ import {Button} from "@rneui/base";
 import {NavigationContainer} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
-export default class Login extends Component {
+export default class Register extends Component {
     render() {
         return (
             <>
                 <Header
-                    
+
                     backgroundColor="green"
                     backgroundImageStyle={{}}
                     barStyle="default"
@@ -35,28 +35,24 @@ export default class Login extends Component {
 
                     <Input placeholder='Email'/>
 
+                    <Input placeholder='Username'/>
+
                     <Input placeholder='Password' secureTextEntry={true}/>
 
-                    <CheckBox title='Remember password'/>
+                    <Input placeholder='Confirm password' secureTextEntry={true}/>
 
-                    <Button title="Login"
+                    <Button title="Join"
+                            onPress={() => this.props.navigation.navigate('Login')}
+                            containerStyle={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginVertical: 30,
+                            }}
                             buttonStyle={{
                                 backgroundColor: "rgba(92, 99,216, 1)",
                                 borderRadius: 5,
                             }}
-                            containerStyle={{
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                marginVertical: 30
-                            }}
-                            onPress={() => this.props.navigation.navigate('Spending')}
                     />
-
-                    <Text style={{textAlign: 'center', textDecorationLine: 'underline'}}
-                          onPress={() => this.props.navigation.navigate('Register')}>
-                        Forgot your password?
-                    </Text>
-
 
                 </View>
             </>
