@@ -2,6 +2,7 @@ import React, {Component, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Input, CheckBox, Header, Icon} from '@rneui/themed'
 import {Button} from "@rneui/base";
+
 // import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { DataTable } from 'react-native-paper';
 import {useNavigation} from "@react-navigation/native";
@@ -43,7 +44,7 @@ export default function Spending() {
                     <DataTable.Cell style={{flex:1}}>2000</DataTable.Cell>
                     <DataTable.Cell style={{flex:1}}>
                         <View style={{flexDirection:'row'}}>
-                            <Button title="Tax" style={{ marginRight: 10 }}/>
+                        <Button title="Tax" style={{ marginRight: 10 }} onPress={() => navigation.navigate('Tax')} />
                             <Button title="Plan"/>
                         </View>
                     </DataTable.Cell>
