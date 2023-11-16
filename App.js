@@ -9,7 +9,7 @@ import {View, Text} from "react-native";
 import Overview from "./pages/Overview";
 import Saving from "./pages/Saving";
 import Register from "./pages/Register";
-// import MyDrawer from "./pages/MyDrawer";
+// import Menu from "./pages/Menu";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
                 <Stack.Screen name="Saving" component={Saving} options={{ headerShown: false }}/>
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
             </Stack.Navigator>
-            {/*<MyDrawer/>*/}
+            {/*<Menu/>*/}
         </NavigationContainer>
     );
 }
