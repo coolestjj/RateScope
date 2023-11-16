@@ -34,6 +34,7 @@ const Overview = () => {
 
     const menu =
         <View style={{flex: 1, justifyContent: 'center'}}>
+            <Button title="Personal Profile" onPress={() => navigation.navigate('Personal')} style={{marginBottom: 8}}/>
             <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}}/>
             <Button title="Spending Overview" onPress={() => navigation.navigate('Overview')}
                     style={{marginBottom: 8}}/>
