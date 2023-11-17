@@ -6,7 +6,8 @@ import {BarChart} from "react-native-chart-kit";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 
-export default function RateScope() {
+
+export default function Loan() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
 
@@ -98,8 +99,6 @@ export default function RateScope() {
             <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
             <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
             <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}}/>
-
-
             <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
                 <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
                 <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>

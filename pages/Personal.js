@@ -29,7 +29,6 @@ export default function Personal() {
             <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
             <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}}/>
 
-
             <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
                 <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
                 <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>

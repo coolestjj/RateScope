@@ -8,52 +8,15 @@ import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { FontAwesome } from '@expo/vector-icons'; 
 
-import { SpendingList } from './spending/SpendingList';
-
-function getFormattedDate(date) {
-  return date.toISOString().slice(0, 10);
-}
-
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    description: 'A pair of shoes',
-    amount: 59.99,
-    date: new Date('2023-10-19'),
-    rate: false,
-  },
-  {
-    id: 'e2',
-    description: 'A pair of trousers',
-    amount: 89.29,
-    date: new Date('2023-10-05'),
-    rate: false,
-  },
-  {
-    id: 'e3',
-    description: 'Some bananas',
-    amount: 5.99,
-    date: new Date('2023-10-01'),
-    rate: false
-  },
-  {
-    id: 'e4',
-    description: 'A book',
-    amount: 14.99,
-    date: new Date('2023-10-19'),
-    rate: true
-  },
-];
+import { SpendingList } from './SpendingList';
+import { useContext } from 'react';
+import { ExpensesContext } from './context';
 
 const deviceWidth = Dimensions.get('window').width;
 export default function Spending() {
     const navigation = useNavigation();
     // Sample spending data
-    const spendingData = [
-        {name: 'Car', payment: 2000, optimizer: ['Tax', 'Plan']},
-        {name: 'Computer', payment: 2500, optimizer: ['Tax', 'Plan']},
-        {name: 'Prime membership', payment: 15, optimizer: ['Tax', 'Plan']},
-    ];
+    const expensesCtx = useContext(ExpensesContext);
 
     const menu =
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -63,8 +26,6 @@ export default function Spending() {
         <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
         <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
         <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}}/>
-
-
         <View style={{flexDirection: 'row', alignItems: 'center', position:'absolute', bottom: 20, right: 8}}>
             <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
             <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
@@ -74,9 +35,12 @@ export default function Spending() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
+        
+        
         <SideMenu menu={menu}
                   isOpen={isMenuOpen}
         >
+            
             <View style={{flex: 1, backgroundColor: 'white'}}>
                 <Header
                     leftComponent={<Icon name='menu'
@@ -110,31 +74,8 @@ export default function Spending() {
                     </View>
                 </View>
                 <View>
-                    <FlatList
-                        data={DUMMY_EXPENSES}
-                        renderItem={(itemData) => {
-                            return (
-                                <View style={styles.items}>
-                                    <View>
-                                        <Text style={{textAlign:'center', margin: 3, fontSize: 15}}>
-                                            {itemData.item.description}
-                                        </Text>
-                                        <Text style={{margin: 3, fontSize: 10}}>
-                                            {getFormattedDate(itemData.item.date)}
-                                        </Text>
-                                    </View>
-                                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                                        <Text style={{textAlign:'center', margin: 10}}>
-                                                -{itemData.item.amount}
-                                        </Text>
-                                        <View style={styles.icons}><FontAwesome name="pencil" size={24} color="black" /></View>
-                                        <View style={styles.icons}><FontAwesome name="trash" size={24} color="black" /></View>
-                                    </View>
-                                </View>           
-                            );
-                        }}
-                        keyExtractor={(item) => item.id}
-                        />
+                  <SpendingList expenses={expensesCtx.expenses}/>
+                    
                 </View>
 
                 <View style={{flex:1}}></View>
@@ -145,6 +86,7 @@ export default function Spending() {
 
             </View>
         </SideMenu>
+
     )
 }
 

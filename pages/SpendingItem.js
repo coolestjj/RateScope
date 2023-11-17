@@ -4,7 +4,7 @@ function getFormattedDate(date) {
   return date.toISOString().slice(0, 10);
 }
 
-export default function SpendingItem({ id, description, amount, date, rate }) {
+export function SpendingItem({ id, description, amount, date }) {
     return (
         <View>
             <View>

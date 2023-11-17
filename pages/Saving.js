@@ -7,7 +7,7 @@ import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function RateScope() {
+export default function Saving() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
 
