@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import { Alert, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Input, Icon, Button } from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -11,9 +11,21 @@ export default function RateScope() {
   const screenWidth = Dimensions.get("window").width;
   const navigation = useNavigation();
 
-  const [isOpen, setIsOpen] = useState(false);
+  // This useState hook is only for side bar control, don't use it elsewhere!
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [value2, setValue2] = useState('AL');
   const [selectedCategory, setSelectedCategory] = useState('autoTax');
-  const [selectedState, setSelectedState] = useState('AL'); // Default state
+  const [selectedState, setSelectedState] = useState('IL');
+
+  const states = [
+    {label: 'AL', value: 'AL'},
+    {label: 'AK', value: 'AK'},
+    {label: 'IL', value: 'IL'},
+  ]
+
   const [taxMatrix, setTaxMatrix] = useState({
     autoTax: {
       AL: 5.2,
@@ -46,12 +58,23 @@ export default function RateScope() {
     return heatmapData;
   };
 
+  const mapRef = useRef(null);
   const stateCoordinates = {
     AL: { latitude: 32.806671, longitude: -86.791130 },
     AK: { latitude: 61.016977, longitude: -149.243286 },
     IL: { latitude: 40.633125, longitude: -89.398528 },
     // Add more states and coordinates as needed
   };
+  const changeLocation = (newState) => {
+    if (stateCoordinates[newState]) {
+      mapRef.current.animateToRegion({
+        latitude: stateCoordinates[newState].latitude,
+        longitude: stateCoordinates[newState].longitude,
+        latitudeDelta: 5,
+        longitudeDelta: 5,
+      }, 1000);
+    }
+  }
 
   const menu =
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -70,10 +93,10 @@ export default function RateScope() {
   ;
 
   return (
-    <SideMenu menu={menu} isOpen={isOpen}>
+    <SideMenu menu={menu} isOpen={isMenuOpen}>
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <Header
-          leftComponent={<Icon name='menu' size={30} onPress={() => setIsOpen(!isOpen)} />}
+          leftComponent={<Icon name='menu' size={30} onPress={() => setIsMenuOpen(!isMenuOpen)} />}
           centerComponent={{ text: 'RateScope', style: { color: '#fff', fontSize: 20 } }}
           rightComponent={<Icon name='home' onPress={() => navigation.navigate('Login')} size={30} />}
         />
@@ -84,7 +107,7 @@ export default function RateScope() {
           <View style={styles.dropdownContainer}>
             {/* First Dropdown for Tax Category */}
             <DropDownPicker
-              open={isOpen}
+              open={open1}
               value={selectedCategory}
               items={[
                 { label: 'Auto Tax', value: 'autoTax' },
@@ -98,15 +121,18 @@ export default function RateScope() {
               dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
               onChangeItem={(item) => {
                 setSelectedCategory(item.value);
-                setIsOpen(false); // Close the dropdown after selecting an item
+                setOpen1(false); // Close the dropdown after selecting an item
               }}
-             />
+              setOpen={setOpen1}
+            />
 
             {/* Second Dropdown for US States */}
             <DropDownPicker
-              open={isOpen}
-              value={selectedState}
-              items={Object.keys(taxMatrix[selectedCategory])}
+              open={open2}
+              setOpen={setOpen2}
+              items={states}
+              value={value2}
+              setValue={setValue2}
               placeholder="Select State"
               containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
               style={{ backgroundColor: '#fafafa' }}
@@ -114,20 +140,25 @@ export default function RateScope() {
               dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
               onChangeItem={(item) => {
                 setSelectedState(item.value);
-                setIsOpen(false); // Close the dropdown after selecting an item
+                alert(item.value);
+                setOpen2(false); // Close the dropdown after selecting an item
               }}
-            />
+              />
           </View>
 
+          {/*<Button onPress={() => alert(selectedState)} />*/}
           {/* MapView component with Heatmap */}
           <MapView
+            ref = {mapRef}
             style={{ flex: 1, height: 200 }}
             initialRegion={{
-              latitude: stateCoordinates[selectedState].latitude,
-              longitude: stateCoordinates[selectedState].longitude,
+              // latitude: stateCoordinates[selectedState].latitude,
+              // longitude: stateCoordinates[selectedState].longitude,
+              latitude: 40.633125, longitude: -89.398528,
               latitudeDelta: 5,
               longitudeDelta: 5,
             }}
+
             provider={"google"}
           >
             {/* Marker for the selected state */}
@@ -176,6 +207,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+    zIndex: 1
   },
   taxRateText: {
     fontSize: 16,
