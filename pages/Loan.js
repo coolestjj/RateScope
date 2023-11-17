@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import {Alert, View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Input, Header, Icon, Button} from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {BarChart} from "react-native-chart-kit";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 
 export default function RateScope() {
@@ -11,9 +11,17 @@ export default function RateScope() {
     const navigation = useNavigation();
 
     // 初始化状态变量
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    useFocusEffect(
+        useCallback(() => {
+            setIsMenuOpen(false);
+        }, [])
+    );
+    const [bestPayment, setBestPayment] = useState(null);
     const [ficoScore, setFicoScore] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [downPayment, setDownPayment] = useState('');
+    const [totalAmount, setTotalAmount] = useState('');
     const [data, setData] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const chartConfig = {
@@ -24,8 +32,13 @@ export default function RateScope() {
         strokeWidth: 2,
         barPercentage: 0.8,
     };
+    const [timeUnit, setTimeUnit] = useState(null); // 新状态变量
 
     const generateRandomData = () => {
+        if (totalAmount.trim() === '') {
+            Alert.alert('Missing Information', 'Please input your Total Amount.');
+            return;
+        }
         if (ficoScore.trim() === '') {
             Alert.alert('Missing Information', 'Please input your FICO Score.');
             return;
@@ -38,6 +51,12 @@ export default function RateScope() {
             Alert.alert('Missing Information', 'Please input your Loan Term.');
             return;
         }
+        if (parseFloat(totalAmount) - parseFloat(downPayment) <= 0) {
+            Alert.alert('Wrong Input', 'Your Down Payment is higher than Total Loan Amount.');
+            setBestPayment(null)
+            setTimeUnit(null)
+            return;
+        }
         const randomData = {
             labels: ["PNC", "JPM", "BOA"],
             datasets: [
@@ -46,6 +65,10 @@ export default function RateScope() {
                 },
             ]
         };
+        const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.021).toFixed(2);
+        setBestPayment(calculatedPayment); // 更新最佳利润的状态
+        const unit = selectedOption.includes('year') ? '/year' : '/month';
+        setTimeUnit(unit);
         setData(randomData);
     };
 
@@ -66,7 +89,6 @@ export default function RateScope() {
             </View>
         </View>
     ;
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
         <SideMenu menu={menu}
@@ -85,7 +107,14 @@ export default function RateScope() {
 
                 <View style={styles.container}>
                     <Text style={styles.title}>Loan Planner</Text>
-
+                    <View style={styles.inputContainer}>
+                        <Input
+                            containerStyle={{width: screenWidth*0.75}} // 容器宽度设置为屏幕宽度的一半减去一点间隙
+                            placeholder='Total Amount'
+                            value={totalAmount}
+                            onChangeText={setTotalAmount}
+                        />
+                    </View>
                     <View style={styles.inputContainer}>
                         <Input
                             containerStyle={{width: screenWidth / 2 - 10}} // 容器宽度设置为屏幕宽度的一半减去一点间隙
@@ -140,17 +169,8 @@ export default function RateScope() {
                         />
                     )}
                 </View>
-                <View style={styles.backButtonContainer}>
-                    <Button
-                        buttonStyle={styles.backButton}
-                        containerStyle={styles.buttonContainer}
-                        icon={<Icon name='arrow-left' size={15} color='#006FFFFF'/>}
-                        iconContainerStyle={{backgroundColor: '#ff3d00'}}
-                        iconRight
-                        onPress={() => navigation.navigate('Spending')}
-                        title='Go Back'
-                        type='clear'
-                    />
+                <View style={styles.bestProfitContainer}>
+                    <Text style={styles.bestProfitText}>Best Profit: {bestPayment}{timeUnit}</Text>
                 </View>
             </View>
         </SideMenu>
@@ -177,5 +197,15 @@ const styles = StyleSheet.create({
         left: 20,   // 距离左边距20像素
         bottom: 20, // 距离底部20像素
     },
+    bestProfitContainer: {
+        marginBottom: 50,
+        marginLeft: 50,
+    },
+    bestProfitText: {
+        fontSize: 16,         // Font size for the text
+        color: 'black',       // Text color
+        textAlign: 'left',
+        // Add more styling as needed
+    }
     // ... 其他样式
 });
