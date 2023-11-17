@@ -127,6 +127,7 @@ export default function RateScope() {
               latitudeDelta: 5,
               longitudeDelta: 5,
             }}
+            provider={"google"}
           >
             {/* Marker for the selected state */}
             <Marker

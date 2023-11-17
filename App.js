@@ -11,6 +11,8 @@ import Saving from "./pages/Saving";
 import Tax from "./pages/Tax";
 
 import Register from "./pages/Register";
+import ExpensesContextProvider from './pages/context';
+
 // import Menu from "./pages/Menu";
 
 LogBox.ignoreAllLogs();
@@ -18,6 +20,7 @@ LogBox.ignoreAllLogs();
 const Stack = createNativeStackNavigator();
 export default function App() {
     return (
+        <ExpensesContextProvider>
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">
                 <Stack.Screen name="Login" component={Login}  options={{ headerShown: false }}/>
@@ -31,5 +34,6 @@ export default function App() {
             </Stack.Navigator>
             {/*<Menu/>*/}
         </NavigationContainer>
+        </ExpensesContextProvider>
     );
 }
