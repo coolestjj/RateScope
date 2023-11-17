@@ -134,6 +134,9 @@ export default function Spending() {
                         keyExtractor={(item) => item.id}
                         />
                 </View>
+
+                <View style={{flex:1}}></View>
+
                 <View style={styles.add}>
                     <FontAwesome name="plus-circle" size={60} color="black" />
                 </View>
@@ -186,7 +189,8 @@ const styles = StyleSheet.create({
   add: {
     justifyContent:'center',
     alignItems: 'center',
-    marginTop: 250,
+    bottom: 10,
+
   }
 
 });
