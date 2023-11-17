@@ -1,9 +1,7 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Dimensions, FlatList } from 'react-native';
-import {Input, CheckBox, Header, Icon} from '@rneui/themed'
+import {Header, Icon} from '@rneui/themed'
 import {Button} from "@rneui/base";
-// import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
-import {DataTable} from 'react-native-paper';
 import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { FontAwesome } from '@expo/vector-icons'; 
