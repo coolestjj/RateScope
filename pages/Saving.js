@@ -55,6 +55,7 @@ export default function RateScope() {
             <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}}/>
             <Button title="Spending Overview" onPress={() => navigation.navigate('Overview')}
                     style={{marginBottom: 8}}/>
+            <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
             <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
 
 

@@ -60,6 +60,7 @@ export default function Spending() {
         <Button title="Personal Profile" onPress={() => navigation.navigate('Personal')} style={{marginBottom: 8}}/>
         <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}}/>
         <Button title="Spending Overview" onPress={() => navigation.navigate('Overview')} style={{marginBottom: 8}}/>
+        <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
         <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
 
         <View style={{flexDirection: 'row', alignItems: 'center', position:'absolute', bottom: 20, right: 8}}>
