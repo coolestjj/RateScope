@@ -53,41 +53,54 @@ export default function Personal() {
                 <View style={styles.container}>
 
                     <View style={styles.content}>
-                        <Text>Personal Profile</Text>
+                        <Text style={{fontWeight:'bold', fontSize: 20}}>Personal Profile</Text>
 
                     </View>
 
                     <View style={styles.content}>
-                        <Text>Income</Text>
-                        <Input
+                        <View>
+                            <Text style={{textAlign:'center',margin:15}}>Income</Text>
+                        </View>
+                        <View>
+                            <Input
                             placeholder='Income'
                             keyboardType='numeric'
-                        />
+                            inputContainerStyle={{width:100}}
+                            />
+                        </View>
+    
                     </View>
 
                     <View style={styles.content}>
-                        <Text>Zip Code</Text>
-                        <Input
+                        <View>
+                            <Text style={{textAlign:'center',margin:15}}>Zip Code</Text>
+                        </View>
+                        <View>
+                            <Input
                             placeholder='Zip Code'
                             keyboardType='numeric'
-                        />
+                            inputContainerStyle={{width:100}}
+                            />
+                        </View>
+        
                     </View>
 
                     <View style={styles.content}>
-                        <Text>Planning Cycle</Text>
+                        <Text style={{margin:15}}>Planning Cycle</Text>
                         <DropDownPicker open={open}
                                         value={value}
                                         items={items}
                                         setOpen={setOpen}
                                         setValue={setValue}
                                         setItems={setItems}
+                                        containerStyle={{width:100}}
                         />
                     </View>
 
 
                     <Button
                         buttonStyle={{width: 150}}
-                        containerStyle={{margin: 5}}
+                        containerStyle={{margin: 5, alignItems:'center'}}
                         disabledStyle={{
                             borderWidth: 2,
                             borderColor: "#00ff2a"
@@ -118,6 +131,13 @@ export default function Personal() {
 }
 
 const styles = StyleSheet.create({
-    container: {},
-    content: {zIndex:1}
+    container: {
+        justifyContent:'center',
+    },
+    content: {
+        zIndex:1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 10
+    }
 })
