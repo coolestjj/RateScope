@@ -52,24 +52,41 @@ export default function RateScope() {
             return;
         }
         if (parseFloat(totalAmount) - parseFloat(downPayment) <= 0) {
-            Alert.alert('Wrong Input', 'Your Down Payment is higher than Total Loan Amount.');
+            Alert.alert('Wrong Input', 'Please make sure your Down Payment is lower than Total Loan Amount.');
             setBestPayment(null)
             setTimeUnit(null)
             return;
         }
-        const randomData = {
-            labels: ["PNC", "JPM", "BOA"],
-            datasets: [
-                {
-                    data: [2.1, 2.7, 2.9]
-                },
-            ]
-        };
-        const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.021).toFixed(2);
-        setBestPayment(calculatedPayment); // 更新最佳利润的状态
-        const unit = selectedOption.includes('year') ? '/year' : '/month';
-        setTimeUnit(unit);
-        setData(randomData);
+        if (selectedOption.includes('year')) {
+            const randomData = {
+                labels: ["PNC", "JPM", "BOA"],
+                datasets: [
+                    {
+                        data: [3.22, 3.6, 3.67]
+                    },
+                ]
+            };
+            const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.0322).toFixed(2);
+            setBestPayment(calculatedPayment); // 更新最佳利润的状态
+            const unit = '/year';
+            setTimeUnit(unit);
+            setData(randomData);
+        }
+        else {
+            const randomData = {
+                labels: ["PNC", "JPM", "BOA"],
+                datasets: [
+                    {
+                        data: [2.01, 2.09, 2.88]
+                    },
+                ]
+            };
+            const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.0201).toFixed(2);
+            setBestPayment(calculatedPayment); // 更新最佳利润的状态
+            const unit = '/month';
+            setTimeUnit(unit);
+            setData(randomData);
+        }
     };
 
     const menu =
@@ -107,27 +124,31 @@ export default function RateScope() {
 
                 <View style={styles.container}>
                     <Text style={styles.title}>Loan Planner</Text>
-                    <View style={styles.inputContainer}>
-                        <Input
-                            containerStyle={{width: screenWidth*0.75}} // 容器宽度设置为屏幕宽度的一半减去一点间隙
-                            placeholder='Total Amount'
-                            value={totalAmount}
-                            onChangeText={setTotalAmount}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Input
-                            containerStyle={{width: screenWidth / 2 - 10}} // 容器宽度设置为屏幕宽度的一半减去一点间隙
-                            placeholder='FICO Score'
-                            value={ficoScore}
-                            onChangeText={setFicoScore}
-                        />
+                    <View style={styles.rowContainer}>
+                        <View style={styles.inputTotalAmount}>
+                            <Text style={styles.label}>Total Amount:</Text>
+                            <Input
+                                containerStyle={styles.input}
+                                value={totalAmount}
+                                onChangeText={setTotalAmount}
+                            />
+                        </View>
 
+                        <View style={styles.inputFICO}>
+                            <Text style={styles.label}>FICO:</Text>
+                            <Input
+                                containerStyle={styles.input}
+                                value={ficoScore}
+                                onChangeText={setFicoScore}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.inputWithLabel}>
+                        <Text style={styles.label}>Down Payment:</Text>
                         <Input
-                            containerStyle={{width: screenWidth / 2 - 10}} // 同上
-                            placeholder='Down Payment'
+                            containerStyle={styles.input}
                             value={downPayment}
-                            keyboardType='numeric'
                             onChangeText={setDownPayment}
                         />
                     </View>
@@ -170,7 +191,7 @@ export default function RateScope() {
                     )}
                 </View>
                 <View style={styles.bestProfitContainer}>
-                    <Text style={styles.bestProfitText}>Best Profit: {bestPayment}{timeUnit}</Text>
+                    <Text style={styles.bestProfitText}>Best Payment: {bestPayment}{timeUnit}</Text>
                 </View>
             </View>
         </SideMenu>
@@ -187,10 +208,34 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 20,
     },
-    inputContainer: {
-        flexDirection: 'row', // 水平布局
-        justifyContent: 'space-between', // 两个输入框之间有间隙
-        marginBottom: 20,
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // 使容器中的元素均匀分布
+        marginBottom: 1,
+    },
+    inputWithLabel: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    inputTotalAmount: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 2,
+    },
+    inputFICO: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1
+    },
+    label: {
+        marginRight: 10,
+        fontSize: 16,
+        color: 'black',
+        // 根据需要调整样式
+    },
+    input: {
+        flex: 1, // 使输入框填充剩余空间
+        // 可能需要根据你的布局进一步调整样式
     },
     backButtonContainer: {
         position: 'absolute', // 使用绝对定位
@@ -198,7 +243,7 @@ const styles = StyleSheet.create({
         bottom: 20, // 距离底部20像素
     },
     bestProfitContainer: {
-        marginBottom: 50,
+        marginBottom: 100,
         marginLeft: 50,
     },
     bestProfitText: {

@@ -40,22 +40,41 @@ export default function RateScope() {
             return;
         }
         if (selectedOption.trim() === '') {
-            Alert.alert('Missing Information', 'Please input your Loan Term.');
+            Alert.alert('Missing Information', 'Please input your Saving Term.');
             return;
         }
-        const randomData = {
-            labels: ["PNC", "JPM", "BOA"],
-            datasets: [
-                {
-                    data: [2.7, 2.1, 2.02]
-                },
-            ]
-        };
-        const calculatedProfit = (parseFloat(totalAmount) * 0.027).toFixed(2);
-        setBestProfit(calculatedProfit); // 更新最佳利润的状态
-        const unit = selectedOption.includes('year') ? '/year' : '/month';
-        setTimeUnit(unit);
-        setData(randomData);
+        if (selectedOption.includes('year')) {
+            const randomData = {
+                labels: ["PNC", "JPM", "BOA"],
+                datasets: [
+                    {
+                        data: [3.8, 3.6, 3.23]
+                    },
+                ]
+            };
+            const calculatedProfit = (parseFloat(totalAmount) * 0.038).toFixed(2);
+            setBestProfit(calculatedProfit); // 更新最佳利润的状态
+            const unit = '/year';
+            setTimeUnit(unit);
+            setData(randomData);
+        }
+        else {
+            const randomData = {
+                labels: ["PNC", "JPM", "BOA"],
+                datasets: [
+                    {
+                        data: [2.7, 2.1, 2.02]
+                    },
+                ]
+            };
+            const calculatedProfit = (parseFloat(totalAmount) * 0.027).toFixed(2);
+            setBestProfit(calculatedProfit); // 更新最佳利润的状态
+            const unit = '/month';
+            setTimeUnit(unit);
+            setData(randomData);
+        }
+
+
     };
 
     const menu =
@@ -94,13 +113,15 @@ export default function RateScope() {
                 <View style={styles.container}>
                     <Text style={styles.title}>Saving Planner</Text>
                     <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Total Amount:</Text>
                         <Input
-                            containerStyle={{width: screenWidth*0.75}} // 容器宽度设置为屏幕宽度的一半减去一点间隙
+                            containerStyle={styles.input} // 容器宽度设置为屏幕宽度的一半减去一点间隙
                             placeholder='Total Amount'
                             value={totalAmount}
                             onChangeText={setTotalAmount}
                         />
                     </View>
+
                     <View style={{marginBottom: 40, width: screenWidth - 20, zIndex: 1}}>
                         <DropDownPicker
                             open={isOpen}
@@ -159,8 +180,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flexDirection: 'row', // 水平布局
-        justifyContent: 'space-between', // 两个输入框之间有间隙
-        marginBottom: 20,
+        alignItems: 'center',
     },
     backButtonContainer: {
         position: 'absolute', // 使用绝对定位
@@ -176,6 +196,10 @@ const styles = StyleSheet.create({
         color: 'black',       // Text color
         textAlign: 'left',
         // Add more styling as needed
-    }
+    },
+    input: {
+        flex: 1, // 使输入框填充剩余空间
+        // 可能需要根据你的布局进一步调整样式
+    },
     // ... 其他样式
 });
