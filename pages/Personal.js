@@ -98,34 +98,26 @@ export default function Personal() {
                                         containerStyle={{width:100}}
                         />
                     </View>
-
-
-                    <Button
-                        buttonStyle={{width: 150}}
-                        containerStyle={{margin: 5, alignItems:'center'}}
-                        disabledStyle={{
-                            borderWidth: 2,
-                            borderColor: "#00ff2a"
-                        }}
-                        disabledTitleStyle={{color: "#006fff"}}
-                        linearGradientProps={null}
-                        icon={
-                            <Icon name="arrow-right"
-                                  size={15}
-                                  color="#006FFFFF"/>
-                        }
-                        iconContainerStyle={{background: "#00ff2a"}}
-                        iconRight
-                        loadingProps={{animating: true}}
-                        loadingStyle={{}}
-                        // navigate to Spending
-                        onPress={() => navigation.navigate('Spending')}
-                        title="Start Planing"
-                        titleProps={{}}
-                        titleStyle={{marginHorizontal: 5}}
-                        type="clear"
-                    />
                 </View>
+
+                <Button
+                    containerStyle={{margin: 5, alignItems:'center', bottom: 20, right: 8, position:'absolute'}}
+                    disabledTitleStyle={{color: "#006fff"}}
+                    icon={
+                        <Icon name="arrow-right"
+                              size={15}
+                              color="#006FFFFF"/>
+                    }
+                    iconRight
+                    loadingProps={{animating: true}}
+                    loadingStyle={{}}
+                    // navigate to Spending
+                    onPress={() => navigation.navigate('Spending')}
+                    title="Start Planing"
+                    titleProps={{}}
+                    titleStyle={{marginHorizontal: 5}}
+                    type="clear"
+                />
             </View>
         </SideMenu>
     )

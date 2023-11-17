@@ -100,7 +100,7 @@ export default function RateScope() {
                 setSelectedCategory(item.value);
                 setIsOpen(false); // Close the dropdown after selecting an item
               }}
-            />
+             />
 
             {/* Second Dropdown for US States */}
             <DropDownPicker
@@ -128,6 +128,7 @@ export default function RateScope() {
               latitudeDelta: 5,
               longitudeDelta: 5,
             }}
+            provider={"google"}
           >
             {/* Marker for the selected state */}
             <Marker
