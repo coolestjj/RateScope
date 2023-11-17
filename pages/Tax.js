@@ -1,136 +1,178 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Alert, View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Input, Header, Icon, Button } from '@rneui/themed';
+import { Input, Icon, Button } from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Svg, { Rect, Circle } from 'react-native-svg'; // Import SVG components
+import MapView, { Marker, Heatmap } from 'react-native-maps';
 import { useNavigation } from "@react-navigation/native";
+import { Header } from '@rneui/themed'; // Import Header from your library
+import SideMenu from "react-native-side-menu";
 
 export default function RateScope() {
-    const screenWidth = Dimensions.get("window").width;
-    const navigation = useNavigation();
+  const screenWidth = Dimensions.get("window").width;
+  const navigation = useNavigation();
 
-    // Initialize state variables with default values
-    const [selectedCategory, setSelectedCategory] = useState('autoTax'); // Set default tax category to 'Auto Loan'
-    const [selectedState, setSelectedState] = useState('IL'); // Set default state to 'Illinois'
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('autoTax');
+  const [selectedState, setSelectedState] = useState('AL'); // Default state
+  const [taxMatrix, setTaxMatrix] = useState({
+    autoTax: {
+      AL: 5.2,
+      AK: 6.8,
+      IL: 4.5,
+      // Add more states and values as needed
+    },
+    incomeTax: {
+      AL: 3.5,
+      AK: 7.2,
+      IL: 5.8,
+      // Add more states and values as needed
+    },
+  });
 
-    const taxCategories = [
-        { label: 'Auto Tax', value: 'autoTax' },
-        { label: 'Income Tax', value: 'incomeTax' },
-        // Add more tax categories as needed
-    ];
+  const [randomTaxRate, setRandomTaxRate] = useState(null);
 
-    const usStates = [
-        { label: 'Alabama', value: 'AL' },
-        { label: 'Alaska', value: 'AK' },
-        // Add more states as needed
-        { label: 'Illinois', value: 'IL' },
-    ];
+  const generateRandomTaxRate = () => {
+    const taxRate = taxMatrix[selectedCategory][selectedState];
+    setRandomTaxRate(taxRate.toFixed(2)); // Keep only two decimal places
+  };
 
-    // Sample hardcoded heatmap data (for demonstration purposes)
-    const heatmapData = [
-        { state: 'IL', value: 6.25 },
-        { state: 'WI', value: 5.5 },
-        { state: 'IN', value: 5.8 },
-        // Add more data as needed
-    ];
+  const getHeatmapData = () => {
+    // Convert taxMatrix into an array of {latitude, longitude, weight} for heatmap
+    const heatmapData = Object.entries(taxMatrix[selectedCategory]).map(([state, rate]) => ({
+      latitude: stateCoordinates[state].latitude,
+      longitude: stateCoordinates[state].longitude,
+      weight: rate,
+    }));
+    return heatmapData;
+  };
 
-    return (
-        <>
-            <Header
-                leftComponent={<Icon name='menu' onPress={() => navigation.openDrawer()} size={30} />}
-                centerComponent={{ text: 'RateScope', style: { color: '#fff', fontSize: 20 } }}
-                rightComponent={<Icon name='home' onPress={() => navigation.navigate('Login')} size={30} />}
+  const stateCoordinates = {
+    AL: { latitude: 32.806671, longitude: -86.791130 },
+    AK: { latitude: 61.016977, longitude: -149.243286 },
+    IL: { latitude: 40.633125, longitude: -89.398528 },
+    // Add more states and coordinates as needed
+  };
+
+  const menu =
+    <View style={{flex: 1, justifyContent: 'center'}}>
+      {/* Add your menu items here */}
+    </View>;
+
+  return (
+    <SideMenu menu={menu} isOpen={isOpen}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <Header
+          leftComponent={<Icon name='menu' size={30} onPress={() => setIsOpen(!isOpen)} />}
+          centerComponent={{ text: 'RateScope', style: { color: '#fff', fontSize: 20 } }}
+          rightComponent={<Icon name='home' onPress={() => navigation.navigate('Login')} size={30} />}
+        />
+
+        <View style={styles.container}>
+          <Text style={styles.title}>Tax Lookup</Text>
+
+          <View style={styles.dropdownContainer}>
+            {/* First Dropdown for Tax Category */}
+            <DropDownPicker
+              open={isOpen}
+              value={selectedCategory}
+              items={[
+                { label: 'Auto Tax', value: 'autoTax' },
+                { label: 'Income Tax', value: 'incomeTax' },
+                // Add more tax categories as needed
+              ]}
+              placeholder="Select Tax Category"
+              containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
+              style={{ backgroundColor: '#fafafa' }}
+              itemStyle={{ justifyContent: 'flex-start' }}
+              dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
+              onChangeItem={(item) => {
+                setSelectedCategory(item.value);
+                setIsOpen(false); // Close the dropdown after selecting an item
+              }}
             />
 
-            <View style={styles.container}>
-                <Text style={styles.title}>Tax Lookup</Text>
+            {/* Second Dropdown for US States */}
+            <DropDownPicker
+              open={isOpen}
+              value={selectedState}
+              items={Object.keys(taxMatrix[selectedCategory])}
+              placeholder="Select State"
+              containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
+              style={{ backgroundColor: '#fafafa' }}
+              itemStyle={{ justifyContent: 'flex-start' }}
+              dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
+              onChangeItem={(item) => {
+                setSelectedState(item.value);
+                setIsOpen(false); // Close the dropdown after selecting an item
+              }}
+            />
+          </View>
 
-                <View style={styles.dropdownContainer}>
-                    <DropDownPicker
-                        items={taxCategories}
-                        placeholder="Select Tax Category"
-                        defaultValue={selectedCategory}
-                        containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
-                        style={{ backgroundColor: '#fafafa', zIndex: 1000 }}
-                        itemStyle={{ justifyContent: 'flex-start' }}
-                        dropDownStyle={{ backgroundColor: '#fafafa' }}
-                        onChangeItem={(item) => setSelectedCategory(item.value)}
-                    />
+          {/* MapView component with Heatmap */}
+          <MapView
+            style={{ flex: 1, height: 200 }}
+            initialRegion={{
+              latitude: stateCoordinates[selectedState].latitude,
+              longitude: stateCoordinates[selectedState].longitude,
+              latitudeDelta: 5,
+              longitudeDelta: 5,
+            }}
+          >
+            {/* Marker for the selected state */}
+            <Marker
+              coordinate={stateCoordinates[selectedState]}
+              title={selectedState}
+            />
+            {/* Heatmap overlay */}
+            <Heatmap
+              points={getHeatmapData()}
+              radius={40}
+              opacity={0.7}
+              gradient={{
+                colors: ["#00FF00", "#FF0000"],
+                startPoints: [0.2, 0.8],
+                colorMapSize: 256,
+              }}
+            />
+          </MapView>
 
-                    <DropDownPicker
-                        items={usStates}
-                        placeholder="Select State"
-                        defaultValue={selectedState}
-                        containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
-                        style={{ backgroundColor: '#fafafa', zIndex: 1000 }}
-                        itemStyle={{ justifyContent: 'flex-start' }}
-                        dropDownStyle={{ backgroundColor: '#fafafa' }}
-                        onChangeItem={(item) => setSelectedState(item.value)}
-                    />
-                </View>
+          {/* Text view displaying tax rate */}
+          <Text style={styles.taxRateText}>{`Tax Rate: ${randomTaxRate || 'Select state and category'}`}</Text>
 
-                {/* Hardcoded heatmap for demonstration purposes */}
-                <Svg height="100" width={screenWidth - 20}>
-                    {heatmapData.map((item) => (
-                        <Circle
-                            key={item.state}
-                            cx={(item.value - 5) * 50} // Adjust x-coordinate based on value
-                            cy="50"
-                            r="10"
-                            fill="#ff0000" // Red color (you can adjust colors based on values)
-                        />
-                    ))}
-                </Svg>
+          <Button title="Tax Rate" onPress={generateRandomTaxRate} style={{ zIndex: 0 }} />
+        </View>
 
-                {/* Display the text view with a value of 6.25% */}
-                <View style={styles.bottomContainer}>
-                    <Text style={styles.bottomText}>{`Tax Rate: 6.25%`}</Text>
-                </View>
-            </View>
-
-            <View style={styles.backButtonContainer}>
-                <Button
-                    buttonStyle={styles.backButton}
-                    containerStyle={styles.buttonContainer}
-                    icon={<Icon name='arrow-left' size={15} color='#006FFFFF' />}
-                    iconContainerStyle={{ backgroundColor: '#ff3d00' }}
-                    iconRight
-                    onPress={() => navigation.navigate('Spending')}
-                    title='Go Back'
-                    type='clear'
-                />
-            </View>
-        </>
-    );
+        <View style={styles.backButtonContainer}>
+          {/* ... your existing Go Back button code ... */}
+        </View>
+      </View>
+    </SideMenu>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-    title: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginVertical: 20,
-    },
-    dropdownContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
-    },
-    bottomContainer: {
-        marginTop: 20,
-        alignItems: 'center',
-    },
-    bottomText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    backButtonContainer: {
-        position: 'absolute',
-        left: 20,
-        bottom: 20,
-    },
-    // ... other styles
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  dropdownContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  taxRateText: {
+    fontSize: 16,
+    marginTop: 10,
+  },
+  backButtonContainer: {
+    position: 'absolute',
+    left: 20,
+    bottom: 20,
+  },
+  // ... other styles
 });
