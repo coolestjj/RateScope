@@ -3,11 +3,10 @@ import {Alert, View, Text, StyleSheet, Dimensions} from 'react-native';
 import {Input, Header, Icon, Button} from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {BarChart} from "react-native-chart-kit";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
-import { useFocusEffect } from '@react-navigation/native';
 
-export default function Saving() {
+export default function Loan() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
 
@@ -18,8 +17,10 @@ export default function Saving() {
             setIsMenuOpen(false);
         }, [])
     );
-    const [bestProfit, setBestProfit] = useState(null);
+    const [bestPayment, setBestPayment] = useState(null);
+    const [ficoScore, setFicoScore] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
+    const [downPayment, setDownPayment] = useState('');
     const [totalAmount, setTotalAmount] = useState('');
     const [data, setData] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -33,14 +34,27 @@ export default function Saving() {
     };
     const [timeUnit, setTimeUnit] = useState(null); // 新状态变量
 
-
     const generateRandomData = () => {
         if (totalAmount.trim() === '') {
             Alert.alert('Missing Information', 'Please input your Total Amount.');
             return;
         }
+        if (ficoScore.trim() === '') {
+            Alert.alert('Missing Information', 'Please input your FICO Score.');
+            return;
+        }
+        if (downPayment.trim() === '') {
+            Alert.alert('Missing Information', 'Please input your Down Payment.');
+            return;
+        }
         if (selectedOption.trim() === '') {
-            Alert.alert('Missing Information', 'Please input your Saving Term.');
+            Alert.alert('Missing Information', 'Please input your Loan Term.');
+            return;
+        }
+        if (parseFloat(totalAmount) - parseFloat(downPayment) <= 0) {
+            Alert.alert('Wrong Input', 'Please make sure your Down Payment is lower than Total Loan Amount.');
+            setBestPayment(null)
+            setTimeUnit(null)
             return;
         }
         if (selectedOption.includes('year')) {
@@ -48,12 +62,12 @@ export default function Saving() {
                 labels: ["PNC", "JPM", "BOA"],
                 datasets: [
                     {
-                        data: [3.8, 3.6, 3.23]
+                        data: [3.22, 3.6, 3.67]
                     },
                 ]
             };
-            const calculatedProfit = (parseFloat(totalAmount) * 0.038).toFixed(2);
-            setBestProfit(calculatedProfit); // 更新最佳利润的状态
+            const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.0322).toFixed(2);
+            setBestPayment(calculatedPayment); // 更新最佳利润的状态
             const unit = '/year';
             setTimeUnit(unit);
             setData(randomData);
@@ -63,18 +77,16 @@ export default function Saving() {
                 labels: ["PNC", "JPM", "BOA"],
                 datasets: [
                     {
-                        data: [2.7, 2.1, 2.02]
+                        data: [2.01, 2.09, 2.88]
                     },
                 ]
             };
-            const calculatedProfit = (parseFloat(totalAmount) * 0.027).toFixed(2);
-            setBestProfit(calculatedProfit); // 更新最佳利润的状态
+            const calculatedPayment = ((parseFloat(totalAmount) - parseFloat(downPayment))* 0.0201).toFixed(2);
+            setBestPayment(calculatedPayment); // 更新最佳利润的状态
             const unit = '/month';
             setTimeUnit(unit);
             setData(randomData);
         }
-
-
     };
 
     const menu =
@@ -86,7 +98,6 @@ export default function Saving() {
             <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
             <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
             <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}}/>
-
 
             <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
                 <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
@@ -111,17 +122,35 @@ export default function Saving() {
                 />
 
                 <View style={styles.container}>
-                    <Text style={styles.title}>Saving Planner</Text>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Total Amount:</Text>
-                        <Input
-                            containerStyle={styles.input} // 容器宽度设置为屏幕宽度的一半减去一点间隙
-                            placeholder='Total Amount'
-                            value={totalAmount}
-                            onChangeText={setTotalAmount}
-                        />
+                    <Text style={styles.title}>Loan Planner</Text>
+                    <View style={styles.rowContainer}>
+                        <View style={styles.inputTotalAmount}>
+                            <Text style={styles.label}>Total Amount:</Text>
+                            <Input
+                                containerStyle={styles.input}
+                                value={totalAmount}
+                                onChangeText={setTotalAmount}
+                            />
+                        </View>
+
+                        <View style={styles.inputFICO}>
+                            <Text style={styles.label}>FICO:</Text>
+                            <Input
+                                containerStyle={styles.input}
+                                value={ficoScore}
+                                onChangeText={setFicoScore}
+                            />
+                        </View>
                     </View>
 
+                    <View style={styles.inputWithLabel}>
+                        <Text style={styles.label}>Down Payment:</Text>
+                        <Input
+                            containerStyle={styles.input}
+                            value={downPayment}
+                            onChangeText={setDownPayment}
+                        />
+                    </View>
                     <View style={{marginBottom: 40, width: screenWidth - 20, zIndex: 1}}>
                         <DropDownPicker
                             open={isOpen}
@@ -138,7 +167,7 @@ export default function Saving() {
                             setOpen={setIsOpen}
                             setValue={setSelectedOption}
                             defaultValue={selectedOption}
-                            placeholder="Select Saving Term"
+                            placeholder="Select Loan Term"
                             containerStyle={{height: 40}}
                             style={{backgroundColor: '#fafafa', zIndex: 1000}}
                             itemStyle={{justifyContent: 'flex-start'}}
@@ -161,7 +190,7 @@ export default function Saving() {
                     )}
                 </View>
                 <View style={styles.bestProfitContainer}>
-                    <Text style={styles.bestProfitText}>Best Profit: {bestProfit}{timeUnit}</Text>
+                    <Text style={styles.bestProfitText}>Best Payment: {bestPayment}{timeUnit}</Text>
                 </View>
             </View>
         </SideMenu>
@@ -178,9 +207,34 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 20,
     },
-    inputContainer: {
-        flexDirection: 'row', // 水平布局
+    rowContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // 使容器中的元素均匀分布
+        marginBottom: 1,
+    },
+    inputWithLabel: {
+        flexDirection: 'row',
         alignItems: 'center',
+    },
+    inputTotalAmount: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 2,
+    },
+    inputFICO: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1
+    },
+    label: {
+        marginRight: 10,
+        fontSize: 16,
+        color: 'black',
+        // 根据需要调整样式
+    },
+    input: {
+        flex: 1, // 使输入框填充剩余空间
+        // 可能需要根据你的布局进一步调整样式
     },
     backButtonContainer: {
         position: 'absolute', // 使用绝对定位
@@ -188,7 +242,7 @@ const styles = StyleSheet.create({
         bottom: 20, // 距离底部20像素
     },
     bestProfitContainer: {
-        marginBottom: 150,
+        marginBottom: 100,
         marginLeft: 50,
     },
     bestProfitText: {
@@ -196,10 +250,6 @@ const styles = StyleSheet.create({
         color: 'black',       // Text color
         textAlign: 'left',
         // Add more styling as needed
-    },
-    input: {
-        flex: 1, // 使输入框填充剩余空间
-        // 可能需要根据你的布局进一步调整样式
-    },
+    }
     // ... 其他样式
 });
