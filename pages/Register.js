@@ -1,64 +1,104 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useState, Component} from 'react';
+import {View, Text, StyleSheet, Dimensions, Alert} from 'react-native';
 import {Input, CheckBox, Icon, Header} from '@rneui/themed'
 import {Button} from "@rneui/base";
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
-export default class Register extends Component {
-    render() {
-        return (
-            <>
-                <Header
+export default function Register() {
 
-                    backgroundColor="green"
-                    backgroundImageStyle={{}}
-                    barStyle="default"
-                    centerComponent={{
-                        text: "RateScope",
-                        style: {color: "#fff", fontSize: windowWidth / 12},
-                    }}
-                    centerContainerStyle={{}}
-                    containerStyle={{}}
-                    // leftComponent={{ icon: "menu", color: "#fff" }}
-                    leftContainerStyle={{}}
-                    linearGradientProps={{}}
-                    placement="center"
-                    // rightComponent={{ icon: "home", color: "#fff" }}
-                    rightContainerStyle={{}}
-                    statusBarProps={{}}
+    const navigation = useNavigation();
+    const [username, setUsername] = useState({ value: '', error: '' });
+    const [email, setEmail] = useState({ value: '', error: '' });
+    const [password, setPassword] = useState({ value: '', error: '' });
+    const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' });
+    const validateInput = () => {
+        const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        let isValid = true
+        if (!emailRegex.test(email.value)) {
+            setEmail({ ...email, error: 'Please enter a valid email' });
+            isValid = false;
+        }
+        if (username.value.trim() === '') {
+            setUsername({ ...username, error: 'Username cannot be empty' });
+            isValid = false;
+        }
+        if (password.value.length < 8) {
+            setPassword({ ...password, error: 'Password requires at least 8 characters' });
+            isValid = false;
+        }
+        if (password.value !== confirmPassword.value) {
+            setConfirmPassword({ ...confirmPassword, error: 'Make sure you type the same password as above' });
+            isValid = false;
+        }
+        if (!isValid) {
+            return;
+        }
 
+        navigation.navigate('Login');
+    };
+    return (
+        <>
+            <Header
+
+                backgroundColor="green"
+                backgroundImageStyle={{}}
+                barStyle="default"
+                centerComponent={{
+                    text: "RateScope",
+                    style: {color: "#fff", fontSize: windowWidth / 12},
+                }}
+                centerContainerStyle={{}}
+                containerStyle={{}}
+                // leftComponent={{ icon: "menu", color: "#fff" }}
+                leftContainerStyle={{}}
+                linearGradientProps={{}}
+                placement="center"
+                // rightComponent={{ icon: "home", color: "#fff" }}
+                rightContainerStyle={{}}
+                statusBarProps={{}}
+
+            />
+
+            <View style={styles.container}>
+
+
+                <Input placeholder='Email'
+                       onChangeText={(text) => setEmail({ value: text, error: '' })}/>
+                {email.error ? <Text style={{ color: 'red' }}>{email.error}</Text> : null}
+
+                <Input placeholder='Username'
+                       onChangeText={(text) => setUsername({ value: text, error: '' })}/>
+                {username.error ? <Text style={{ color: 'red' }}>{username.error}</Text> : null}
+
+                <Input placeholder='Password'
+                       onChangeText={(text) => setPassword({ value: text, error: '' })}
+                       secureTextEntry={true}/>
+                {password.error ? <Text style={{ color: 'red' }}>{password.error}</Text> : null}
+
+                <Input placeholder='Confirm password'
+                       onChangeText={(text) => setConfirmPassword({ value: text, error: '' })}
+                       secureTextEntry={true}/>
+                {confirmPassword.error ? <Text style={{ color: 'red' }}>{confirmPassword.error}</Text> : null}
+
+                <Button title="Join"
+                        onPress={validateInput}
+                        containerStyle={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginVertical: 30,
+                        }}
+                        buttonStyle={{
+                            backgroundColor: "rgba(92, 99,216, 1)",
+                            borderRadius: 5,
+                        }}
                 />
 
-                <View style={styles.container}>
+            </View>
+        </>
 
+    );
 
-                    <Input placeholder='Email'/>
-
-                    <Input placeholder='Username'/>
-
-                    <Input placeholder='Password' secureTextEntry={true}/>
-
-                    <Input placeholder='Confirm password' secureTextEntry={true}/>
-
-                    <Button title="Join"
-                            onPress={() => this.props.navigation.navigate('Login')}
-                            containerStyle={{
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                marginVertical: 30,
-                            }}
-                            buttonStyle={{
-                                backgroundColor: "rgba(92, 99,216, 1)",
-                                borderRadius: 5,
-                            }}
-                    />
-
-                </View>
-            </>
-
-        );
-    }
 }
 
 const styles = StyleSheet.create({
