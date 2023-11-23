@@ -35,13 +35,11 @@ export default function Register() {
             return;
         }
 
-        navigation.navigate('Login');
+        navigation.navigate('Personal');
     };
     return (
         <>
             <Header
-
-                backgroundColor="green"
                 backgroundImageStyle={{}}
                 barStyle="default"
                 centerComponent={{
@@ -92,6 +90,17 @@ export default function Register() {
                             backgroundColor: "rgba(92, 99,216, 1)",
                             borderRadius: 5,
                         }}
+                />
+
+                <Button
+                    buttonStyle={styles.backButton}
+                    containerStyle={styles.buttonContainer}
+                    icon={<Icon name='arrow-left' size={15} color='#006FFFFF'/>}
+                    iconContainerStyle={{backgroundColor: '#ff3d00'}}
+                    iconRight
+                    onPress={() => navigation.navigate('Login')}
+                    title='Go Back'
+                    type='clear'
                 />
 
             </View>

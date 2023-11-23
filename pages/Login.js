@@ -10,8 +10,6 @@ export default class Login extends Component {
         return (
             <>
                 <Header
-                    
-                    backgroundColor="green"
                     backgroundImageStyle={{}}
                     barStyle="default"
                     centerComponent={{

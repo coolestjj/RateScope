@@ -21,14 +21,13 @@ export default function Personal() {
     const navigation = useNavigation();
     const menu =
         <View style={{flex: 1, justifyContent: 'center'}}>
-            <Button title="Personal Profile" onPress={() => navigation.navigate('Personal')} style={{marginBottom: 8}}/>
-            <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}}/>
+            <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}} type='clear'/>
+            <Button title="Personal Profile" onPress={() => navigation.navigate('Personal')} style={{marginBottom: 8}} type='clear'/>
             <Button title="Spending Overview" onPress={() => navigation.navigate('Overview')}
-                    style={{marginBottom: 8}}/>
-            <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}}/>
-            <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}}/>
-            <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}}/>
-
+                    style={{marginBottom: 8}} type='clear'/>
+            <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}} type='clear'/>
+            <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}} type='clear'/>
+            <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}} type='clear'/>
             <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
                 <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
                 <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
