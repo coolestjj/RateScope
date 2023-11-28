@@ -5,24 +5,13 @@ import {Button} from "@rneui/base";
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
-export default function Register() {
 
+export default function Reset() {
     const navigation = useNavigation();
-    const [username, setUsername] = useState({ value: '', error: '' });
-    const [email, setEmail] = useState({ value: '', error: '' });
     const [password, setPassword] = useState({ value: '', error: '' });
     const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' });
     const validateInput = () => {
-        const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         let isValid = true
-        if (!emailRegex.test(email.value)) {
-            setEmail({ ...email, error: 'Please enter a valid email' });
-            isValid = false;
-        }
-        if (username.value.trim() === '') {
-            setUsername({ ...username, error: 'Username cannot be empty' });
-            isValid = false;
-        }
         if (password.value.length < 8) {
             setPassword({ ...password, error: 'Password requires at least 8 characters' });
             isValid = false;
@@ -34,8 +23,7 @@ export default function Register() {
         if (!isValid) {
             return;
         }
-
-        navigation.navigate('Personal');
+        navigation.navigate('Login');
     };
     return (
         <>
@@ -47,19 +35,8 @@ export default function Register() {
                 }}
                 placement="center"
             />
-
             <View style={styles.container}>
-
-
-                <Input placeholder='Email'
-                       onChangeText={(text) => setEmail({ value: text, error: '' })}/>
-                {email.error ? <Text style={{ color: 'red' }}>{email.error}</Text> : null}
-
-                <Input placeholder='Username'
-                       onChangeText={(text) => setUsername({ value: text, error: '' })}/>
-                {username.error ? <Text style={{ color: 'red' }}>{username.error}</Text> : null}
-
-                <Input placeholder='Password'
+                <Input placeholder='Reset password'
                        onChangeText={(text) => setPassword({ value: text, error: '' })}
                        secureTextEntry={true}/>
                 {password.error ? <Text style={{ color: 'red' }}>{password.error}</Text> : null}
@@ -69,7 +46,7 @@ export default function Register() {
                        secureTextEntry={true}/>
                 {confirmPassword.error ? <Text style={{ color: 'red' }}>{confirmPassword.error}</Text> : null}
 
-                <Button title="Join"
+                <Button title="Confirm"
                         onPress={validateInput}
                         containerStyle={{
                             justifyContent: 'center',
@@ -88,16 +65,13 @@ export default function Register() {
                     icon={<Icon name='arrow-left' size={15} color='#006FFFFF'/>}
                     iconContainerStyle={{backgroundColor: '#ff3d00'}}
                     iconRight
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.navigate('Forgot')}
                     title='Go Back'
                     type='clear'
                 />
-
             </View>
         </>
-
-    );
-
+    )
 }
 
 const styles = StyleSheet.create({

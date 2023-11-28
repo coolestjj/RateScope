@@ -7,15 +7,12 @@ import Spending from "./pages/Spending";
 import {View, Text, LogBox} from "react-native";
 import Overview from "./pages/Overview";
 import Tax from "./pages/Tax";
-
 import Loan from "./pages/Loan";
-
 import ExpensesContextProvider from './pages/context';
-
-// import Menu from "./pages/Menu";
-
 import Register from "./pages/Register";
 import Saving from "./pages/Saving";
+import Forgot from "./pages/Forgot";
+import Reset from "./pages/Reset";
 
 
 LogBox.ignoreAllLogs();
@@ -34,6 +31,8 @@ export default function App() {
                 <Stack.Screen name="Tax" component={Tax} options={{ headerShown: false }}/>
                 <Stack.Screen name="Saving" component={Saving} options={{ headerShown: false }}/>
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+                <Stack.Screen name="Forgot" component={Forgot} options={{ headerShown: false }}/>
+                <Stack.Screen name="Reset" component={Reset} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
         </ExpensesContextProvider>

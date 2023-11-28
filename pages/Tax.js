@@ -78,13 +78,18 @@ export default function RateScope() {
 
   const menu =
       <View style={{flex: 1, justifyContent: 'center'}}>
-        <Button title="Main" onPress={() => navigation.navigate('Spending')} style={{marginBottom: 8}} type='clear'/>
-        <Button title="Personal Profile" onPress={() => navigation.navigate('Personal')} style={{marginBottom: 8}} type='clear'/>
-        <Button title="Spending Overview" onPress={() => navigation.navigate('Overview')}
+        <Button title="Main" onPress={() => {navigation.navigate('Spending'); setIsMenuOpen(false);}}
                 style={{marginBottom: 8}} type='clear'/>
-        <Button title="Tax Lookup Map" onPress={() => navigation.navigate('Tax')} style={{marginBottom: 8}} type='clear'/>
-        <Button title="Savings Planner" onPress={() => navigation.navigate('Saving')} style={{marginBottom: 8}} type='clear'/>
-        <Button title="Loan Planner" onPress={() => navigation.navigate('Loan')} style={{marginBottom: 8}} type='clear'/>
+        <Button title="Personal Profile" onPress={() => {navigation.navigate('Personal'); setIsMenuOpen(false);}}
+                style={{marginBottom: 8}} type='clear'/>
+        <Button title="Spending Overview" onPress={() => {navigation.navigate('Overview'); setIsMenuOpen(false);}}
+                style={{marginBottom: 8}} type='clear'/>
+        <Button title="Tax Lookup Map" onPress={() => {navigation.navigate('Tax'); setIsMenuOpen(false);}}
+                style={{marginBottom: 8}} type='clear'/>
+        <Button title="Savings Planner" onPress={() => {navigation.navigate('Saving'); setIsMenuOpen(false);}}
+                style={{marginBottom: 8}} type='clear'/>
+        <Button title="Loan Planner" onPress={() => {navigation.navigate('Loan'); setIsMenuOpen(false);}}
+                style={{marginBottom: 8}} type='clear'/>
         <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
           <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
           <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
@@ -98,7 +103,7 @@ export default function RateScope() {
         <Header
           leftComponent={<Icon name='menu' size={30} onPress={() => setIsMenuOpen(!isMenuOpen)} />}
           centerComponent={{ text: 'RateScope', style: { color: '#fff', fontSize: 20 } }}
-          rightComponent={<Icon name='home' onPress={() => navigation.navigate('Login')} size={30} />}
+          rightComponent={<Icon name='home' onPress={() => navigation.navigate('Spending')} size={30} />}
         />
 
         <View style={styles.container}>
@@ -124,6 +129,7 @@ export default function RateScope() {
                 setOpen1(false); // Close the dropdown after selecting an item
               }}
               setOpen={setOpen1}
+              onPress={() => setIsMenuOpen(false)}
             />
 
             {/* Second Dropdown for US States */}
@@ -143,6 +149,7 @@ export default function RateScope() {
                 alert(item.value);
                 setOpen2(false); // Close the dropdown after selecting an item
               }}
+              onPress={() => setIsMenuOpen(false)}
               />
           </View>
 
