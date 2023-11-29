@@ -5,6 +5,7 @@ import {Button} from "@rneui/base";
 import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { FontAwesome } from '@expo/vector-icons'; 
+import IconButton from '../UI/IconButton';
 
 import { SpendingList } from './SpendingList';
 import { useContext } from 'react';
@@ -15,6 +16,20 @@ export default function Spending() {
     const navigation = useNavigation();
     // Sample spending data
     const expensesCtx = useContext(ExpensesContext);
+    let income = 0;
+    let expense = 0;
+    for (let e of expensesCtx.expenses) {
+      if (e.type === 'expense') {
+        expense += e.amount;
+      } else {
+        income += e.amount;
+      }
+    }
+
+    function expensePressHandler() {
+        navigation.navigate('ManageExpense');
+    }
+
 
     const menu =
         <View style={{flex: 1, justifyContent: 'center'}}>
@@ -58,33 +73,30 @@ export default function Spending() {
 
                 <View style={styles.summary}>
                     <View style={{margin:4}}>
-                        <Text>Oct, 2023</Text>
+                        <Text>Nov, 2023</Text>
                     </View>
                     <View style={styles.summaryCircle}>
                         <FontAwesome name="dollar" size={45} color="black" />
                         <Text style={[styles.summaryCircleText, {fontWeight: "bold"}]}>current</Text>
-                        <Text style={styles.summaryCircleText}>2850.00</Text>
+                        <Text style={styles.summaryCircleText}>{(income - expense).toFixed(2)}</Text>
                     </View>
                     <View style={styles.incomeVSexpense}>
                         <View style={{flex: 1}}>
                             <Text style={[styles.incomeVSexpenseText, {fontWeight: "bold"}]}>income</Text>
-                            <Text style={styles.incomeVSexpenseText}>3000.00</Text>
+                            <Text style={styles.incomeVSexpenseText}>{income.toFixed(2)}</Text>
                         </View>
                         <View style={{flex: 1}}>
                             <Text style={[styles.incomeVSexpenseText, {fontWeight: "bold"}]}>expense</Text>
-                            <Text style={styles.incomeVSexpenseText}>150.00</Text>
+                            <Text style={styles.incomeVSexpenseText}>{expense.toFixed(2)}</Text>
                         </View>
                     </View>
                 </View>
-                <View>
-                  <SpendingList expenses={expensesCtx.expenses}/>
-                    
+                <View style={{flex:1}}>
+                  <SpendingList expenses={expensesCtx.expenses}/>                   
                 </View>
 
-                <View style={{flex:1}}></View>
-
                 <View style={styles.add}>
-                    <FontAwesome name="plus-circle" size={60} color="black" />
+                    <IconButton icon="plus-circle" size={60} color="black" onPress={expensePressHandler}/>
                 </View>
 
             </View>

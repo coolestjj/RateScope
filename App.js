@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import Saving from "./pages/Saving";
 import Forgot from "./pages/Forgot";
 import Reset from "./pages/Reset";
+import ManageExpense from './pages/ManageExpense';
 
 
 LogBox.ignoreAllLogs();
@@ -33,6 +34,7 @@ export default function App() {
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
                 <Stack.Screen name="Forgot" component={Forgot} options={{ headerShown: false }}/>
                 <Stack.Screen name="Reset" component={Reset} options={{ headerShown: false }}/>
+                <Stack.Screen name="ManageExpense" component={ManageExpense} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
         </ExpensesContextProvider>
