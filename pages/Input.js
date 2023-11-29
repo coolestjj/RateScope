@@ -28,13 +28,12 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   label: {
-    fontSize: 12,
-    //color: GlobalStyles.colors.primary100,
+    fontSize: 16,
+    color: "white",
     marginBottom: 4,
   },
   input: {
-    //backgroundColor: GlobalStyles.colors.primary100,
-    //color: GlobalStyles.colors.primary700,
+    backgroundColor: "white",
     padding: 6,
     borderRadius: 6,
     fontSize: 18,
@@ -44,9 +43,9 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   invalidLabel: {
-    //color: GlobalStyles.colors.error500
+    color: "#ffcec9"
   },
   invalidInput: {
-    //backgroundColor: GlobalStyles.colors.error50
+    backgroundColor: "#ffcec9"
   }
 });

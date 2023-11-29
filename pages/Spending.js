@@ -67,44 +67,47 @@ export default function Spending() {
                   isOpen={isMenuOpen}
         >
             
-            <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={{flex: 1, backgroundColor: '#358f80'}}>
                 <Header
                     leftComponent={<Icon name='menu'
                                          size={30}
+                                         color='white'
                                          onPress={() => setIsMenuOpen(!isMenuOpen)}
                     />}
                     centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                     rightComponent={<Icon name='home'
+                                          color='white'
                                           onPress={() => navigation.navigate('Spending')}
                                           size={30}/>}
+                    backgroundColor="#358f80"
                 />
 
                 <View style={styles.summary}>
                     <View style={{margin:4}}>
-                        <Text>Nov, 2023</Text>
+                        <Text style={{fontSize:16, color:'white'}}>Nov, 2023</Text>
                     </View>
                     <View style={styles.summaryCircle}>
-                        <FontAwesome name="dollar" size={45} color="black" />
+                        <FontAwesome name="dollar" size={45} color="#358f80" />
                         <Text style={[styles.summaryCircleText, {fontWeight: "bold"}]}>current</Text>
                         <Text style={styles.summaryCircleText}>{(income - expense).toFixed(2)}</Text>
                     </View>
                     <View style={styles.incomeVSexpense}>
-                        <View style={{flex: 1}}>
+                        <View style={{flex: 1, margin: 4}}>
                             <Text style={[styles.incomeVSexpenseText, {fontWeight: "bold"}]}>income</Text>
                             <Text style={styles.incomeVSexpenseText}>{income.toFixed(2)}</Text>
                         </View>
-                        <View style={{flex: 1}}>
+                        <View style={{flex: 1, margin: 4}}>
                             <Text style={[styles.incomeVSexpenseText, {fontWeight: "bold"}]}>expense</Text>
                             <Text style={styles.incomeVSexpenseText}>{expense.toFixed(2)}</Text>
                         </View>
                     </View>
                 </View>
-                <View style={{flex:1}}>
+                <View style={{flex:1, alignItems: 'center', marginTop: 10}}>
                   <SpendingList expenses={expensesCtx.expenses}/>                   
                 </View>
 
                 <View style={styles.add}>
-                    <IconButton icon="plus-circle" size={60} color="black" onPress={expensePressHandler}/>
+                    <IconButton icon="plus-circle" size={75} color="white" onPress={expensePressHandler}/>
                 </View>
 
             </View>
@@ -117,16 +120,18 @@ const styles = StyleSheet.create({
   summary: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#67b99a'
   },
   summaryCircle: {
     width: 180,
     height: 180,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 90,
-    borderColor: 'black',
+    borderColor: 'white',
     margin: 4,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'white'
   },
   summaryCircleText: {
     textAlign: 'center',
@@ -140,8 +145,9 @@ const styles = StyleSheet.create({
   },
   incomeVSexpenseText: {
     textAlign: 'center',
-    margin: 5,
+    margin: 4,
     fontSize: 20,
+    color: "white"
   },
   items: {
     flexDirection: 'row',
@@ -156,8 +162,8 @@ const styles = StyleSheet.create({
   add: {
     justifyContent:'center',
     alignItems: 'center',
-    bottom: 10,
-
+    color: "white",
+    margin: 50,
   }
 
 });

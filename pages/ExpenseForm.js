@@ -143,7 +143,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
 
   return (
     <View style={styles.form}>
-      <Text style={styles.title}>Your Expense</Text>
+      <Text style={styles.title}>Expense  |  Income</Text>
       <View style={styles.inputsRow}>
         <Input
           style={styles.rowInput}
@@ -167,47 +167,64 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
           }}
         />
       </View>
-      <Text>Category</Text>
+      <Input
+        label="Description"
+        invalid={!inputs.description.isValid}
+        textInputConfig={{
+          onChangeText: inputChangedHandler.bind(this, 'description'),
+          value: inputs.description.value,
+        }}
+      />
+
+      <Text style={{color:"white", margin:4}}>Category</Text>
       <SelectList 
         setSelected={(val) => inputChangedHandler('category', val)} 
         data={category} 
         save="value" 
         placeholder={inputs.category.value}
+        boxStyles={{borderColor: "white"}}
+        inputStyles={{color:"white"}}
+        dropdownTextStyles={{color:"white"}}
+        dropdownStyles={{borderColor:"#99e2b4"}}
       />
-      <Text>Plan</Text>
+      <Text style={{color:"white", margin:4}}>Plan</Text>
       <SelectList 
         setSelected={(val) => inputChangedHandler('plan', val)} 
         data={plan} 
         save="value"
         placeholder={inputs.plan.value}
+        boxStyles={{borderColor: "white"}}
+        inputStyles={{color:"white"}}
+        dropdownTextStyles={{color:"white"}}
+        dropdownStyles={{borderColor:"#99e2b4"}}
       />
-      <Text>Rate</Text>
+      <Text style={{color:"white", margin:4}}>Rate</Text>
       <SelectList 
         setSelected={(val) => inputChangedHandler('rate', val)} 
         data={rate} 
         save="value"
         placeholder={inputs.rate.value}
+        boxStyles={{borderColor: "white"}}
+        inputStyles={{color:"white"}}
+        dropdownTextStyles={{color:"white"}}
+        dropdownStyles={{borderColor:"#99e2b4"}}
       />
-      <Text>Type</Text>
+      <Text style={{color:"white", margin:4}}>Type</Text>
       <SelectList 
         setSelected={(val) => inputChangedHandler('type', val)} 
         data={type} 
         save="value"
         placeholder={inputs.type.value}
+        boxStyles={{borderColor: "white"}}
+        inputStyles={{color:"white"}}
+        dropdownTextStyles={{color:"white"}}
+        dropdownStyles={{borderColor:"#99e2b4"}}
       />
 
-      <Input
-        label="Description"
-        invalid={!inputs.description.isValid}
-        textInputConfig={{
-          //multiline: true,
-          onChangeText: inputChangedHandler.bind(this, 'description'),
-          value: inputs.description.value,
-        }}
-      />
+      
       {formIsInvalid && (
         <Text style={styles.errorText}>
-          Invalid input values - please check your entered data!
+          Invalid input values
         </Text>
       )}
       <View style={styles.buttons}>
@@ -227,6 +244,7 @@ export default ExpenseForm;
 const styles = StyleSheet.create({
   form: {
     marginTop: 40,
+    
   },
   title: {
     fontSize: 24,
@@ -244,16 +262,20 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: 'center',
-    //color: GlobalStyles.colors.error500,
+    color: "#ffcec9",
     margin: 8,
+    fontSize: 16
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   button: {
     minWidth: 120,
     marginHorizontal: 8,
+    marginTop: 12,
+    
   },
 });

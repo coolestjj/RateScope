@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ExpensesContext } from './context';
 import IconButton from '../UI/IconButton';
 import { useContext } from 'react';
 
+const deviceWidth = Dimensions.get('window').width;
 function getFormattedDate(date) {
   return date.toISOString().slice(0, 10);
 }
@@ -11,6 +12,7 @@ function getFormattedDate(date) {
 export function SpendingItem({ id, description, amount, date, category, plan, rate, type }) {
     const navigation = useNavigation();
     const expensesCtx = useContext(ExpensesContext);
+
 
     function expensePressHandler() {
         navigation.navigate('ManageExpense', {
@@ -35,7 +37,7 @@ export function SpendingItem({ id, description, amount, date, category, plan, ra
         
             <View style={styles.items}>
                 <View>
-                    <Text style={{margin: 3, fontSize: 15}}>
+                    <Text style={{margin: 3, fontSize: 18}}>
                         {description}
                     </Text>
                     <Text style={{margin: 3, fontSize: 10}}>
@@ -47,8 +49,8 @@ export function SpendingItem({ id, description, amount, date, category, plan, ra
                         
                         {type === "expense" ? "-" : "+"}{rateCalc(amount).toFixed(2)}
                     </Text>
-                    <View style={{margin:4}}><IconButton icon="pencil" size={24} color="black" onPress={expensePressHandler}/></View>
-                    <View style={{margin:4}}><IconButton icon="trash" size={24} color="black" onPress={()=> {expensesCtx.deleteExpense(id);}}/></View>
+                    <View style={{margin:4}}><IconButton icon="pencil" size={24} color="#5b6efc" onPress={expensePressHandler}/></View>
+                    <View style={{margin:4}}><IconButton icon="trash" size={24} color="#f26b6b" onPress={()=> {expensesCtx.deleteExpense(id);}}/></View>
                 </View>
             </View>
 
@@ -57,10 +59,16 @@ export function SpendingItem({ id, description, amount, date, category, plan, ra
 
 const styles = StyleSheet.create({
     items: {
+        width: deviceWidth * 0.85,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         borderWidth: 2,
-        borderColor: 'black',
-        margin: 4,
+        borderColor: 'white',
+        borderRadius: 10,
+        margin: 5,
+        backgroundColor: "white",
+        padding: 2,
+        opacity:0.9
     },
 });

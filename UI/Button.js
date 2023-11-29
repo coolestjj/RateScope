@@ -23,17 +23,17 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 4,
     padding: 8,
-    backgroundColor: 'blue',
+    backgroundColor: "#036666",
   },
   flat: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
   },
   flatText: {
-    color: 'blue',
+    color: "#036666",
   },
   pressed: {
     opacity: 0.75,
