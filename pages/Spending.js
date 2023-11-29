@@ -19,8 +19,16 @@ export default function Spending() {
     let income = 0;
     let expense = 0;
     for (let e of expensesCtx.expenses) {
-      if (e.type === 'expense') {
-        expense += e.amount;
+      if (e.type === "expense") {
+        if (e.rate === "AL") {
+          expense += e.amount*1.052;
+        } else if (e.rate === "AK") {
+          expense += e.amount*1.068;
+        } else if (e.rate === "IL") {
+          expense += e.amount*1.045;
+        } else {
+          expense += e.amount;
+        }
       } else {
         income += e.amount;
       }

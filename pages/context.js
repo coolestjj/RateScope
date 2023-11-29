@@ -16,7 +16,7 @@ const DUMMY_EXPENSES = [
     description: 'house rent',
     amount: 1000.00,
     date: new Date('2023-11-20'),
-    category: 'rent',
+    category: 'Rent',
     plan: 'Monthly',
     rate: 'IL',
     type: 'expense',

@@ -1,8 +1,8 @@
 import { useContext, useLayoutEffect } from 'react';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 
-// import ExpenseForm from '../components/ManageExpense/ExpenseForm';
-import Button from '../UI/Button'
+import ExpenseForm from './ExpenseForm';
+import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 
 import { ExpensesContext } from '../pages/context';
@@ -42,43 +42,40 @@ function ManageExpense({ route, navigation }) {
   }
 
   return (
-    // <View style={styles.container}>
-    //   <ExpenseForm
-    //     submitButtonLabel={isEditing ? 'Update' : 'Add'}
-    //     onSubmit={confirmHandler}
-    //     onCancel={cancelHandler}
-    //     defaultValues={selectedExpense}
-    //   />
-    //   {isEditing && (
-    //     <View style={styles.deleteContainer}>
-    //       <IconButton
-    //         icon="trash"
-    //         color={GlobalStyles.colors.error500}
-    //         size={36}
-    //         onPress={deleteExpenseHandler}
-    //       />
-    //     </View>
-    //   )}
-    // </View>
-    <View>
-      <Text>hello expense</Text>
+    <View style={styles.container}>
+      <ExpenseForm
+        submitButtonLabel={isEditing ? 'Update' : 'Add'}
+        onSubmit={confirmHandler}
+        onCancel={cancelHandler}
+        defaultValues={selectedExpense}
+      />
+      {isEditing && (
+        <View style={styles.deleteContainer}>
+          <IconButton
+            icon="trash"
+            //color={GlobalStyles.colors.error500}
+            size={36}
+            onPress={deleteExpenseHandler}
+          />
+        </View>
+      )}
     </View>
   );
 }
 
 export default ManageExpense;
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 24,
-//     backgroundColor: GlobalStyles.colors.primary800,
-//   },
-//   deleteContainer: {
-//     marginTop: 16,
-//     paddingTop: 8,
-//     borderTopWidth: 2,
-//     borderTopColor: GlobalStyles.colors.primary200,
-//     alignItems: 'center',
-//   },
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    //backgroundColor: GlobalStyles.colors.primary800,
+  },
+  deleteContainer: {
+    marginTop: 16,
+    paddingTop: 8,
+    borderTopWidth: 2,
+    //borderTopColor: GlobalStyles.colors.primary200,
+    alignItems: 'center',
+  },
+});

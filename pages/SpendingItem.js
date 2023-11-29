@@ -17,6 +17,20 @@ export function SpendingItem({ id, description, amount, date, category, plan, ra
             expenseId: id
         });
     }
+
+    function rateCalc(num) {
+        if (plan === "income" || rate === "None") {
+            return num;
+        } else {
+            if (rate === "AL") {
+                return num*1.052;
+            } else if (rate === "AK") {
+                return num*1.068;
+            } else if (rate === "IL") {
+                return num*1.045;
+            }
+        }
+    }
     return (
         
             <View style={styles.items}>
@@ -31,7 +45,7 @@ export function SpendingItem({ id, description, amount, date, category, plan, ra
                 <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Text style={{textAlign:'center', margin: 10}}>
                         
-                        {type === "expense" ? "-" : "+"}{amount.toFixed(2)}
+                        {type === "expense" ? "-" : "+"}{rateCalc(amount).toFixed(2)}
                     </Text>
                     <View style={{margin:4}}><IconButton icon="pencil" size={24} color="black" onPress={expensePressHandler}/></View>
                     <View style={{margin:4}}><IconButton icon="trash" size={24} color="black" onPress={()=> {expensesCtx.deleteExpense(id);}}/></View>
