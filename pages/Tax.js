@@ -195,7 +195,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     textAlign: 'center',
-    marginVertical: 20,
+    marginVertical: 16,
+    color: 'white',
+    fontWeight: 'bold',
   },
   dropdownContainer: {
     flexDirection: 'row',

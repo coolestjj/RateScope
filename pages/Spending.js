@@ -42,8 +42,8 @@ export default function Spending() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
-            
+        <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>}
+                  isOpen={isMenuOpen}>
             <View style={{flex: 1, backgroundColor: '#358f80'}}>
                 <Header
                     leftComponent={<Icon name='menu'

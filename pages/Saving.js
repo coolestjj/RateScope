@@ -98,10 +98,12 @@ export default function Saving() {
                 <View style={styles.container}>
                     <Text style={styles.title}>Saving Planner</Text>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Total Amount:</Text>
+                        {/*<Text style={styles.label}>Total Amount:</Text>*/}
                         <Input
+                            label="Total Amount:"
+                            labelStyle={{color: 'white'}}
                             containerStyle={styles.input} // 容器宽度设置为屏幕宽度的一半减去一点间隙
-                            placeholder='Total Amount'
+                            placeholder='$'
                             value={totalAmount}
                             onChangeText={setTotalAmount}
                             keyboardType='numeric'
@@ -163,7 +165,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         textAlign: 'center',
-        marginVertical: 20,
+        marginVertical: 16,
+        color: 'white',
+        fontWeight: 'bold',
     },
     inputContainer: {
         flexDirection: 'row', // 水平布局

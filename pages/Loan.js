@@ -112,33 +112,42 @@ export default function Loan() {
                     <Text style={styles.title}>Loan Planner</Text>
                     <View style={styles.rowContainer}>
                         <View style={styles.inputTotalAmount}>
-                            <Text style={styles.label}>Total Amount:</Text>
+                            {/*<Text style={styles.label}>Total Amount:</Text>*/}
                             <Input
+                                label="Total Amount:"
+                                labelStyle={{color: 'white'}}
                                 containerStyle={styles.input}
                                 value={totalAmount}
                                 onChangeText={setTotalAmount}
                                 keyboardType='numeric'
+                                placeholder='$'
                             />
                         </View>
 
                         <View style={styles.inputFICO}>
-                            <Text style={styles.label}>FICO:</Text>
+                            {/*<Text style={styles.label}>FICO:</Text>*/}
                             <Input
+                                label="FICO:"
+                                labelStyle={{color: 'white'}}
                                 containerStyle={styles.input}
                                 value={ficoScore}
                                 onChangeText={setFicoScore}
                                 keyboardType='numeric'
+                                placeholder='what is it?'
                             />
                         </View>
                     </View>
 
                     <View style={styles.inputWithLabel}>
-                        <Text style={styles.label}>Down Payment:</Text>
+                        {/*<Text style={styles.label}>Down Payment:</Text>*/}
                         <Input
+                            label="Down Payment:"
+                            labelStyle={{color: 'white'}}
                             containerStyle={styles.input}
                             value={downPayment}
                             onChangeText={setDownPayment}
                             keyboardType='numeric'
+                            placeholder='what is it?'
                         />
                     </View>
                     <View style={{marginBottom: 40, width: screenWidth - 20, zIndex: 1}}>
@@ -196,7 +205,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         textAlign: 'center',
-        marginVertical: 20,
+        marginVertical: 16,
+        color: 'white',
+        fontWeight: 'bold',
     },
     rowContainer: {
         flexDirection: 'row',
