@@ -62,28 +62,22 @@ const Overview = () => {
     return (
         <SideMenu menu={menu}
                   isOpen={isMenuOpen}>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'
                                          size={30}
+                                         color='white'
                                          onPress={() => setIsMenuOpen(!isMenuOpen)}
                     />}
                     centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                     rightComponent={<Icon name='home'
+                                          color='white'
                                           onPress={() => navigation.navigate('Spending')}
                                           size={30}/>}
+                    backgroundColor="#358f80"
                 />
 
                 <ScrollView contentContainerStyle={styles.container}>
-                    {/*<Header*/}
-                    {/*          leftComponent={<Icon name='menu'*/}
-                    {/*                               onPress={() => this.props.navigation.openDrawer()}*/}
-                    {/*                               size={30}/>}*/}
-                    {/*          centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}*/}
-                    {/*          rightComponent={<Icon name='home'*/}
-                    {/*                                onPress={() => navigation.navigate('Login')}*/}
-                    {/*                                size={30}/>}*/}
-                    {/*  />*/}
 
                     <Text style={styles.pageTitle}>Spending Overview</Text>
 
@@ -145,6 +139,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginVertical: 16,
+        color: "white"
     },
     dropdownContainer: {
         width: '80%',

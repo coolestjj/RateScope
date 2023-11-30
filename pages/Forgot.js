@@ -25,6 +25,7 @@ export default function Forgot() {
                     style: {color: "#fff", fontSize: windowWidth / 12},
                 }}
                 placement="center"
+                backgroundColor="#358f80"
             />
 
             <View style={styles.container}>

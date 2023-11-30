@@ -103,7 +103,7 @@ export default function Spending() {
                     </View>
                 </View>
                 <View style={{flex:1, alignItems: 'center', marginTop: 10}}>
-                  <SpendingList expenses={expensesCtx.expenses}/>                   
+                  <SpendingList expenses={expensesCtx.expenses} />
                 </View>
 
                 <View style={styles.add}>

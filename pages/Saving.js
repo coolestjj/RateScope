@@ -101,16 +101,19 @@ export default function Saving() {
     return (
         <SideMenu menu={menu}
                   isOpen={isMenuOpen}>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'
                                          size={30}
+                                         color='white'
                                          onPress={() => setIsMenuOpen(!isMenuOpen)}
                     />}
                     centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                     rightComponent={<Icon name='home'
+                                          color='white'
                                           onPress={() => navigation.navigate('Spending')}
                                           size={30}/>}
+                    backgroundColor="#358f80"
                 />
 
                 <View style={styles.container}>

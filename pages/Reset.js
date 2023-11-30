@@ -34,6 +34,7 @@ export default function Reset() {
                     style: {color: "#fff", fontSize: windowWidth / 12},
                 }}
                 placement="center"
+                backgroundColor="#358f80"
             />
             <View style={styles.container}>
                 <Input placeholder='Reset password'

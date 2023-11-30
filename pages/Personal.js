@@ -43,28 +43,36 @@ export default function Personal() {
     return (
         <SideMenu menu={menu}
                   isOpen={isMenuOpen}>
-            <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'
                                          size={30}
+                                         color='white'
                                          onPress={() => setIsMenuOpen(!isMenuOpen)}
                     />}
                     centerComponent={{text: 'RateScope', style: {color: '#fff', fontSize: 20}}}
                     rightComponent={<Icon name='home'
+                                          color='white'
                                           onPress={() => navigation.navigate('Spending')}
                                           size={30}/>}
+                    backgroundColor="#358f80"
                 />
 
                 <View style={styles.container}>
 
                     <View style={styles.content}>
-                        <Text style={{fontWeight:'bold', fontSize: 20}}>Personal Profile</Text>
+                        <Text style={{fontWeight:'bold', fontSize: 20,
+                            color: "white", marginVertical: 16}}>
+                            Personal Profile
+                        </Text>
 
                     </View>
 
                     <View style={styles.content}>
                         <View>
-                            <Text style={{textAlign:'center',margin:15}}>Income</Text>
+                            <Text style={{textAlign:'center',margin:15, color: "white"}}>
+                                Income
+                            </Text>
                         </View>
                         <View>
                             <Input
@@ -78,27 +86,31 @@ export default function Personal() {
 
                     <View style={styles.content}>
                         <View>
-                            <Text style={{textAlign:'center',margin:15}}>Zip Code</Text>
+                            <Text style={{textAlign:'center',margin:15, color: "white"}}>
+                                Zip Code
+                            </Text>
                         </View>
                         <View>
                             <Input
                             placeholder='Zip Code'
                             keyboardType='numeric'
                             inputContainerStyle={{width:100}}
+                            maxLength={5}
                             />
                         </View>
         
                     </View>
 
-                    <View style={styles.content}>
-                        <Text style={{margin:15}}>Planning Cycle</Text>
+                    <View style={{alignItems: 'center'}}>
+                        {/*<Text style={{margin:20}}>Planning Cycle</Text>*/}
                         <DropDownPicker open={open}
                                         value={value}
                                         items={items}
                                         setOpen={setOpen}
                                         setValue={setValue}
                                         setItems={setItems}
-                                        containerStyle={{width:100}}
+                                        containerStyle={{width:'80%'}}
+                                        placeholder="Select a planning cycle"
                         />
                     </View>
                 </View>
@@ -135,6 +147,6 @@ const styles = StyleSheet.create({
         zIndex:1,
         flexDirection: 'row',
         justifyContent: 'center',
-        margin: 10
+        margin: 10,
     }
 })
