@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Header, Icon, Button} from '@rneui/themed';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -6,6 +6,7 @@ import PieChart from 'react-native-pie-chart';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import SideMenu from "react-native-side-menu";
 import LeftMenu from "../UI/LeftMenu";
+import {ExpensesContext} from "./context";
 
 const Overview = () => {
     const navigation = useNavigation();
@@ -19,25 +20,42 @@ const Overview = () => {
         {label: 'Historical accumulation', value: 'total'},
     ]);
 
+    const {expenses} = useContext(ExpensesContext);
+    const [series, setSeries] = useState([])
+    const [sliceColor, setSliceColor] = useState(['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'])
+    const [categories, setCategories] = useState([])
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const expenseItems = expenses.filter((expense) => expense.type === 'expense');
+        const categories = [...new Set(expenseItems.map((expense) => expense.category))];
+        setCategories(categories);
+        let amounts = categories.map(
+            (category) =>
+                expenseItems
+                    .filter((expense) => expense.category === category)
+                    .reduce((sum, current) => sum + current.amount, 0)
+        );
+        if (amounts.every((amount) => amount === 0) || amounts.length === 0) {
+            amounts = [1];
+        }
+        setSeries(amounts);
+        setSliceColor(sliceColor.slice(0, amounts.length));
+        setLoading(false);
+    }, [expenses]);
 
     const [spendingData, setSpendingData] = useState([]);
 
-    useEffect(() => {
-        // Retrieve spending data from route params
-        if (route.params && route.params.spendingData) {
-            setSpendingData(route.params.spendingData);
-        }
-    }, [route.params]);
-
     const widthAndHeight = 250;
-    const series = [100, 200, 300];
-    const sliceColor = ['#fbd203', '#ffb300', '#ff9100'];
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Function to calculate the total payment from spendingData
     const calculateTotalPayment = () => {
         return spendingData.reduce((total, item) => total + item.payment, 0);
     };
+
+    if (loading) {
+        return <Text>Loading...</Text>;
+    }
 
     return (
         <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
@@ -72,7 +90,17 @@ const Overview = () => {
                     />
 
                     <View style={styles.chartContainer}>
-                        <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor}/>
+                        <PieChart widthAndHeight={widthAndHeight}
+                                  series={series}
+                                  sliceColor={sliceColor}/>
+                        <View style={styles.legend}>
+                            {categories.map((category, index) => (
+                                <View key={index} style={styles.legendItem}>
+                                    <View style={[styles.legendColor, { backgroundColor: sliceColor[index] }]} />
+                                    <Text style={styles.legendText}>{category}</Text>
+                                </View>
+                            ))}
+                        </View>
                     </View>
 
                     <Text style={styles.totalPaymentText}>
@@ -136,6 +164,22 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginVertical: 8,
+    },
+    legend: {
+        marginTop: 20,
+    },
+    legendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    legendColor: {
+        width: 20,
+        height: 20,
+        marginRight: 10,
+    },
+    legendText: {
+        fontSize: 16,
     },
 });
 
