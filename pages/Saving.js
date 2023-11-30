@@ -6,6 +6,7 @@ import {BarChart} from "react-native-chart-kit";
 import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { useFocusEffect } from '@react-navigation/native';
+import LeftMenu from "../UI/LeftMenu";
 
 export default function Saving() {
     const screenWidth = Dimensions.get("window").width;
@@ -77,30 +78,8 @@ export default function Saving() {
 
     };
 
-    const menu =
-        <View style={{flex: 1, justifyContent: 'center'}}>
-            <Button title="Main" onPress={() => {navigation.navigate('Spending'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Personal Profile" onPress={() => {navigation.navigate('Personal'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Spending Overview" onPress={() => {navigation.navigate('Overview'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Tax Lookup Map" onPress={() => {navigation.navigate('Tax'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Savings Planner" onPress={() => {navigation.navigate('Saving'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Loan Planner" onPress={() => {navigation.navigate('Loan'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
-                <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
-                <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
-            </View>
-        </View>
-    ;
-
     return (
-        <SideMenu menu={menu}
-                  isOpen={isMenuOpen}>
+        <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
             <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'

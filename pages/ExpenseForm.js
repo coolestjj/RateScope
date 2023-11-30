@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 
 import Input from './Input';
-import Button from '../UI/Button';
+import MyButton from '../UI/MyButton';
 
 function getFormattedDate(date) {
   return date.toISOString().slice(0, 10);
@@ -228,12 +228,12 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         </Text>
       )}
       <View style={styles.buttons}>
-        <Button style={styles.button} mode="flat" onPress={onCancel}>
+        <MyButton style={styles.button} mode="flat" onPress={onCancel}>
           Cancel
-        </Button>
-        <Button style={styles.button} onPress={submitHandler}>
+        </MyButton>
+        <MyButton style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
-        </Button>
+        </MyButton>
       </View>
     </View>
   );

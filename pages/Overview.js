@@ -5,6 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import PieChart from 'react-native-pie-chart';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import SideMenu from "react-native-side-menu";
+import LeftMenu from "../UI/LeftMenu";
 
 const Overview = () => {
     const navigation = useNavigation();
@@ -31,27 +32,6 @@ const Overview = () => {
     const widthAndHeight = 250;
     const series = [100, 200, 300];
     const sliceColor = ['#fbd203', '#ffb300', '#ff9100'];
-
-    const menu =
-        <View style={{flex: 1, justifyContent: 'center'}}>
-            <Button title="Main" onPress={() => {navigation.navigate('Spending'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Personal Profile" onPress={() => {navigation.navigate('Personal'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Spending Overview" onPress={() => {navigation.navigate('Overview'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Tax Lookup Map" onPress={() => {navigation.navigate('Tax'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Savings Planner" onPress={() => {navigation.navigate('Saving'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <Button title="Loan Planner" onPress={() => {navigation.navigate('Loan'); setIsMenuOpen(false);}}
-                    style={{marginBottom: 8}} type='clear'/>
-            <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
-                <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
-                <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
-            </View>
-        </View>
-    ;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Function to calculate the total payment from spendingData
@@ -60,8 +40,7 @@ const Overview = () => {
     };
 
     return (
-        <SideMenu menu={menu}
-                  isOpen={isMenuOpen}>
+        <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
             <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'

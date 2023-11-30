@@ -6,6 +6,7 @@ import MapView, { Marker, Heatmap } from 'react-native-maps';
 import { useNavigation } from "@react-navigation/native";
 import { Header } from '@rneui/themed'; // Import Header from your library
 import SideMenu from "react-native-side-menu";
+import LeftMenu from "../UI/LeftMenu";
 
 export default function RateScope() {
   const screenWidth = Dimensions.get("window").width;
@@ -76,29 +77,8 @@ export default function RateScope() {
     }
   }
 
-  const menu =
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <Button title="Main" onPress={() => {navigation.navigate('Spending'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <Button title="Personal Profile" onPress={() => {navigation.navigate('Personal'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <Button title="Spending Overview" onPress={() => {navigation.navigate('Overview'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <Button title="Tax Lookup Map" onPress={() => {navigation.navigate('Tax'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <Button title="Savings Planner" onPress={() => {navigation.navigate('Saving'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <Button title="Loan Planner" onPress={() => {navigation.navigate('Loan'); setIsMenuOpen(false);}}
-                style={{marginBottom: 8}} type='clear'/>
-        <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
-          <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
-          <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
-        </View>
-      </View>
-  ;
-
   return (
-    <SideMenu menu={menu} isOpen={isMenuOpen}>
+    <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
       <View style={{ flex: 1, backgroundColor: '#67b99a' }}>
         <Header
             leftComponent={<Icon name='menu'
@@ -129,9 +109,9 @@ export default function RateScope() {
               ]}
               placeholder="Select Tax Category"
               containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
-              style={{ backgroundColor: '#fafafa' }}
+              style={{ backgroundColor: '#fafafa', width: screenWidth / 2 - 30 }}
               itemStyle={{ justifyContent: 'flex-start' }}
-              dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
+              dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2, }}
               onChangeItem={(item) => {
                 setSelectedCategory(item.value);
                 setOpen1(false); // Close the dropdown after selecting an item
@@ -149,7 +129,7 @@ export default function RateScope() {
               setValue={setValue2}
               placeholder="Select State"
               containerStyle={{ height: 40, width: screenWidth / 2 - 15 }}
-              style={{ backgroundColor: '#fafafa' }}
+              style={{ backgroundColor: '#fafafa', width: screenWidth / 2 - 30 }}
               itemStyle={{ justifyContent: 'flex-start' }}
               dropDownStyle={{ backgroundColor: '#fafafa', zIndex: 2 }}
               onChangeItem={(item) => {
@@ -161,7 +141,7 @@ export default function RateScope() {
               />
           </View>
 
-          {/*<Button onPress={() => alert(selectedState)} />*/}
+          {/*<MyButton onPress={() => alert(selectedState)} />*/}
           {/* MapView component with Heatmap */}
           <MapView
             ref = {mapRef}
