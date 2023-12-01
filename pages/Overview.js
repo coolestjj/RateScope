@@ -5,7 +5,6 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import PieChart from 'react-native-pie-chart';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import SideMenu from "react-native-side-menu";
-import LeftMenu from "../UI/LeftMenu";
 import {ExpensesContext} from "./context";
 import MyButton from "../UI/MyButton";
 
@@ -50,12 +49,50 @@ const Overview = () => {
     const widthAndHeight = 250;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const menu =
+        <View style={{flex: 1, justifyContent: 'center'}}>
+            <Button title="Main" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Spending');
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <Button title="Personal Profile" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Personal');
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <Button title="Spending Overview" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Overview', { expense: expense });
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <Button title="Tax Lookup Map" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Tax');
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <Button title="Savings Planner" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Saving');
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <Button title="Loan Planner" titleStyle={{color: '#67b99a'}} onPress={() => {
+                navigation.navigate('Loan');
+                setIsMenuOpen(false);
+            }}
+                    style={styles.sideButton} type='clear'/>
+            <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 20, right: 8}}>
+                <Text onPress={() => navigation.navigate('Login')}>Logout</Text>
+                <Icon name="logout" onPress={() => navigation.navigate('Login')} size={30}/>
+            </View>
+        </View>;
+
     if (loading) {
         return <Text>Loading...</Text>;
     }
 
     return (
-        <SideMenu menu={<LeftMenu setIsMenuOpen={()=>setIsMenuOpen(false)}/>} isOpen={isMenuOpen}>
+        <SideMenu menu={menu} isOpen={isMenuOpen}>
             <View style={{flex: 1, backgroundColor: '#67b99a'}}>
                 <Header
                     leftComponent={<Icon name='menu'

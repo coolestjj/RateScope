@@ -196,8 +196,7 @@ export default function Loan() {
                         />
                     </View>
 
-                    <MyButton onPress={generateRandomData} style={styles.button}
-                    >calculate
+                    <MyButton onPress={generateRandomData} style={styles.button}>calculate
                     </MyButton>
 
                     <View style={styles.chartContainer}>
@@ -246,6 +245,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginBottom: 10,
         alignSelf: 'center',
+        marginTop: 16,
         zIndex: 0,
 
     },
