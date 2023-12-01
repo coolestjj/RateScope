@@ -55,7 +55,7 @@ export default function Personal() {
                         <View>
                             <Input label="Income:"
                                    labelStyle={{color: 'white'}}
-                                   placeholder='$'
+                                   placeholder='$ annual'
                                    keyboardType='numeric'
                                    inputContainerStyle={{width: 100}}
                             />
