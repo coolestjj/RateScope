@@ -6,12 +6,25 @@ import {BarChart} from "react-native-chart-kit";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import LeftMenu from "../UI/LeftMenu";
+import MyButton from "../UI/MyButton";
 
 
 export default function Loan() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
+    const [inputFocusCount, setInputFocusCount] = useState(1);
 
+    // 处理输入框获得焦点
+    const handleInputFocus = () => {
+        //Alert.alert('Missing Information', 'Please input your Total Amount.');
+        setInputFocusCount(count => 1);
+    };
+
+    // 处理输入框失去焦点
+    const handleInputBlur = () => {
+
+        setInputFocusCount(count => 0);
+    };
     // 初始化状态变量
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     useFocusEffect(
@@ -89,6 +102,7 @@ export default function Loan() {
             setTimeUnit(unit);
             setData(randomData);
         }
+        handleInputBlur();
     };
 
     return (
@@ -121,6 +135,8 @@ export default function Loan() {
                                 onChangeText={setTotalAmount}
                                 keyboardType='numeric'
                                 placeholder='$'
+                                onPressIn={handleInputFocus}
+                                //onBlur={handleInputBlur}
                             />
                         </View>
 
@@ -133,7 +149,9 @@ export default function Loan() {
                                 value={ficoScore}
                                 onChangeText={setFicoScore}
                                 keyboardType='numeric'
-                                placeholder='what is it?'
+                                placeholder='Credit Score'
+                                onPressIn={handleInputFocus}
+                                //onBlur={handleInputBlur}
                             />
                         </View>
                     </View>
@@ -147,10 +165,12 @@ export default function Loan() {
                             value={downPayment}
                             onChangeText={setDownPayment}
                             keyboardType='numeric'
-                            placeholder='what is it?'
+                            placeholder='One-time Initial Payment'
+                            onPressIn={handleInputFocus}
+                            //onBlur={handleInputBlur}
                         />
                     </View>
-                    <View style={{marginBottom: 40, width: screenWidth - 20, zIndex: 1}}>
+                    <View style={{marginBottom: 20, width: screenWidth - 50, zIndex: 1, alignSelf: 'center'}}>
                         <DropDownPicker
                             onPress={() => setIsMenuOpen(false)}
                             open={isOpen}
@@ -176,22 +196,28 @@ export default function Loan() {
                         />
                     </View>
 
-                    <Button title="Calculate" onPress={generateRandomData} style={{zIndex: 0}}/>
+                    <MyButton onPress={generateRandomData} style={styles.button}
+                    >calculate
+                    </MyButton>
 
-                    {data && (
-                        <BarChart
-                            data={data}
-                            width={screenWidth}
-                            height={220}
-                            fromZero
-                            chartConfig={chartConfig}
-                            verticalLabelRotation={30}
-                        />
-                    )}
+                    <View style={styles.chartContainer}>
+                        {data && (
+                            <BarChart
+                                data={data}
+                                width={screenWidth - 50}
+                                height={220}
+                                fromZero
+                                chartConfig={chartConfig}
+                                verticalLabelRotation={30}
+                            />
+                        )}
+                    </View>
                 </View>
-                <View style={styles.bestProfitContainer}>
-                    <Text style={styles.bestProfitText}>Best Payment: {bestPayment}{timeUnit}</Text>
-                </View>
+                {inputFocusCount === 0 && (
+                    <View style={styles.bestProfitContainer}>
+                        <Text style={styles.bestProfitText}>Best Payment: {bestPayment}{timeUnit}</Text>
+                    </View>
+                )}
             </View>
         </SideMenu>
     );
@@ -213,6 +239,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between', // 使容器中的元素均匀分布
         marginBottom: 1,
+    },
+    button: {
+        minWidth: 300,
+        marginHorizontal: 8,
+        marginBottom: 10,
+        alignSelf: 'center',
+        zIndex: 0,
+
     },
     inputWithLabel: {
         flexDirection: 'row',
@@ -244,14 +278,19 @@ const styles = StyleSheet.create({
         bottom: 20, // 距离底部20像素
     },
     bestProfitContainer: {
-        marginBottom: 70,
-        marginLeft: 50,
+        marginBottom: 75,
+        alignItems: 'center',
     },
     bestProfitText: {
         fontSize: 16,         // Font size for the text
         color: 'black',       // Text color
         textAlign: 'left',
         // Add more styling as needed
-    }
+    },
     // ... 其他样式
+    chartContainer: {
+        alignItems: 'center', // 水平居中
+        justifyContent: 'center', // 垂直居中（如果需要）
+        // 其他需要的样式
+    }
 });

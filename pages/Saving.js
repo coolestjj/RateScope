@@ -7,11 +7,24 @@ import {useNavigation} from "@react-navigation/native";
 import SideMenu from "react-native-side-menu";
 import { useFocusEffect } from '@react-navigation/native';
 import LeftMenu from "../UI/LeftMenu";
+import MyButton from "../UI/MyButton";
 
 export default function Saving() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
+    const [inputFocusCount, setInputFocusCount] = useState(1);
 
+    // 处理输入框获得焦点
+    const handleInputFocus = () => {
+        //Alert.alert('Missing Information', 'Please input your Total Amount.');
+        setInputFocusCount(count => 1);
+    };
+
+    // 处理输入框失去焦点
+    const handleInputBlur = () => {
+
+        setInputFocusCount(count => 0);
+    };
     // 初始化状态变量
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     useFocusEffect(
@@ -74,7 +87,7 @@ export default function Saving() {
             setTimeUnit(unit);
             setData(randomData);
         }
-
+        handleInputBlur();
 
     };
 
@@ -107,10 +120,11 @@ export default function Saving() {
                             value={totalAmount}
                             onChangeText={setTotalAmount}
                             keyboardType='numeric'
+                            onPressIn={handleInputFocus}
                         />
                     </View>
 
-                    <View style={{marginBottom: 40, width: screenWidth - 20, zIndex: 1}}>
+                    <View style={{marginBottom: 40, width: screenWidth - 50, zIndex: 1, alignSelf: 'center'}}>
                         <DropDownPicker
                             onPress={() => setIsMenuOpen(false)}
                             open={isOpen}
@@ -136,22 +150,28 @@ export default function Saving() {
                         />
                     </View>
 
-                    <Button title="Calculate" onPress={generateRandomData} style={{zIndex: 0}}/>
+                    <MyButton onPress={generateRandomData} style={styles.button}
+                    >calculate
+                    </MyButton>
 
-                    {data && (
-                        <BarChart
-                            data={data}
-                            width={screenWidth}
-                            height={220}
-                            fromZero
-                            chartConfig={chartConfig}
-                            verticalLabelRotation={30}
-                        />
-                    )}
+                    <View style={styles.chartContainer}>
+                        {data && (
+                            <BarChart
+                                data={data}
+                                width={screenWidth - 50}
+                                height={220}
+                                fromZero
+                                chartConfig={chartConfig}
+                                verticalLabelRotation={30}
+                            />
+                        )}
+                    </View>
                 </View>
-                <View style={styles.bestProfitContainer}>
-                    <Text style={styles.bestProfitText}>Best Profit: {bestProfit}{timeUnit}</Text>
-                </View>
+                {inputFocusCount === 0 && (
+                    <View style={styles.bestProfitContainer}>
+                        <Text style={styles.bestProfitText}>Best Profit: {bestProfit}{timeUnit}</Text>
+                    </View>
+                )}
             </View>
         </SideMenu>
     );
@@ -179,8 +199,8 @@ const styles = StyleSheet.create({
         bottom: 20, // 距离底部20像素
     },
     bestProfitContainer: {
-        marginBottom: 150,
-        marginLeft: 50,
+        marginBottom: 125,
+        alignItems: 'center',
     },
     bestProfitText: {
         fontSize: 16,         // Font size for the text
@@ -192,5 +212,18 @@ const styles = StyleSheet.create({
         flex: 1, // 使输入框填充剩余空间
         // 可能需要根据你的布局进一步调整样式
     },
+    button: {
+        minWidth: 300,
+        marginHorizontal: 8,
+        marginBottom: 20,
+        alignSelf: 'center',
+        zIndex: 0,
+
+    },
     // ... 其他样式
+    chartContainer: {
+        alignItems: 'center', // 水平居中
+        justifyContent: 'center', // 垂直居中（如果需要）
+        // 其他需要的样式
+    }
 });
