@@ -208,6 +208,7 @@ export default function Loan() {
                                 height={220}
                                 fromZero
                                 chartConfig={chartConfig}
+                                yAxisSuffix='%'
                                 verticalLabelRotation={30}
                             />
                         )}
@@ -215,7 +216,7 @@ export default function Loan() {
                 </View>
                 {inputFocusCount === 0 && (
                     <View style={styles.bestProfitContainer}>
-                        <Text style={styles.bestProfitText}>Best Payment: {bestPayment}{timeUnit}</Text>
+                        <Text style={styles.bestProfitText}>Best Payment: $ {bestPayment}{timeUnit}</Text>
                     </View>
                 )}
             </View>

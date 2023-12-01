@@ -13,7 +13,7 @@ export default function Saving() {
     const screenWidth = Dimensions.get("window").width;
     const navigation = useNavigation();
     const [inputFocusCount, setInputFocusCount] = useState(1);
-
+    const [customMonths, setCustomMonths] = useState('');
     // 处理输入框获得焦点
     const handleInputFocus = () => {
         //Alert.alert('Missing Information', 'Please input your Total Amount.');
@@ -135,7 +135,6 @@ export default function Saving() {
                                 {label: '1 year', value: '1 year'},
                                 {label: '3 year', value: '3 year'},
                                 {label: '5 year', value: '5 year'},
-                                {label: '10 year', value: '10 year'},
                                 // ...更多选项
                             ]}
                             setOpen={setIsOpen}
@@ -148,6 +147,17 @@ export default function Saving() {
                             dropDownStyle={{backgroundColor: '#fafafa'}}
                             onChangeItem={item => setSelectedOption(item.value)}
                         />
+                        {selectedOption === 'custom' && (
+                            <Input
+                                label="Enter Months:"
+                                labelStyle={{color: 'white'}}
+                                containerStyle={styles.input}
+                                placeholder='Months'
+                                value={customMonths}
+                                onChangeText={setCustomMonths}
+                                keyboardType='numeric'
+                            />
+                        )}
                     </View>
 
                     <MyButton onPress={generateRandomData} style={styles.button}
@@ -162,6 +172,7 @@ export default function Saving() {
                                 height={220}
                                 fromZero
                                 chartConfig={chartConfig}
+                                yAxisSuffix='%'
                                 verticalLabelRotation={30}
                             />
                         )}
@@ -169,7 +180,7 @@ export default function Saving() {
                 </View>
                 {inputFocusCount === 0 && (
                     <View style={styles.bestProfitContainer}>
-                        <Text style={styles.bestProfitText}>Best Profit: {bestProfit}{timeUnit}</Text>
+                        <Text style={styles.bestProfitText}>Best Profit: $ {bestProfit}{timeUnit}</Text>
                     </View>
                 )}
             </View>
