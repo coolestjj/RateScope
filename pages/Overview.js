@@ -7,11 +7,10 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import SideMenu from "react-native-side-menu";
 import LeftMenu from "../UI/LeftMenu";
 import {ExpensesContext} from "./context";
+import MyButton from "../UI/MyButton";
 
 const Overview = () => {
     const navigation = useNavigation();
-    const route = useRoute();
-
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
@@ -22,11 +21,14 @@ const Overview = () => {
 
     const {expenses} = useContext(ExpensesContext);
     const [series, setSeries] = useState([])
-    const [sliceColor, setSliceColor] = useState(['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'])
+    const [sliceColor, setSliceColor] = useState(['#FF0000', '#FFA500', '#FF1493',  '#FFFF00']);
+    const [totalPayment, setTotalPayment] = useState(0);
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         const expenseItems = expenses.filter((expense) => expense.type === 'expense');
+        const total = expenseItems.reduce((sum, current) => sum + current.amount, 0);
+        setTotalPayment(total.toFixed(2));
         const categories = [...new Set(expenseItems.map((expense) => expense.category))];
         setCategories(categories);
         let amounts = categories.map(
@@ -47,11 +49,6 @@ const Overview = () => {
 
     const widthAndHeight = 250;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    // Function to calculate the total payment from spendingData
-    const calculateTotalPayment = () => {
-        return spendingData.reduce((total, item) => total + item.payment, 0);
-    };
 
     if (loading) {
         return <Text>Loading...</Text>;
@@ -87,6 +84,7 @@ const Overview = () => {
                         setItems={setItems}
                         containerStyle={styles.dropdownContainer}
                         onPress={() => setIsMenuOpen(false)}
+                        placeholder="Select a time period"
                     />
 
                     <View style={styles.chartContainer}>
@@ -104,30 +102,16 @@ const Overview = () => {
                     </View>
 
                     <Text style={styles.totalPaymentText}>
-                        Total Payment: ${calculateTotalPayment().toFixed(2)}
+                        Total Payment: {totalPayment}
                     </Text>
 
-                    <Button
-                        buttonStyle={styles.startPlanningButton}
-                        containerStyle={styles.buttonContainer}
-                        icon={<Icon name='arrow-right' size={15} color='#006FFFFF'/>}
-                        iconContainerStyle={{backgroundColor: '#00ff2a'}}
-                        iconRight
-                        onPress={() => navigation.navigate('Saving')}
-                        title='Start Planning'
-                        type='clear'
-                    />
+                    <MyButton style={styles.startSavingButton} onPress={() => {
+                        navigation.navigate('Saving');
+                        setIsMenuOpen(false);
+                    }}>
+                        Start saving
+                    </MyButton>
 
-                    <Button
-                        buttonStyle={styles.backButton}
-                        containerStyle={styles.buttonContainer}
-                        icon={<Icon name='arrow-left' size={15} color='#006FFFFF'/>}
-                        iconContainerStyle={{backgroundColor: '#ff3d00'}}
-                        iconRight
-                        onPress={() => navigation.navigate('Spending')}
-                        title='Go Back'
-                        type='clear'
-                    />
                 </ScrollView>
             </View>
         </SideMenu>
@@ -140,6 +124,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         padding: 16,
+    },
+    legend: {
+        flexDirection: 'row', // Align items horizontally
+        flexWrap: 'wrap', // Allow items to wrap to the next line
+        justifyContent: 'center', // Center items horizontally
+        marginTop: 20,
+    },
+    legendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginRight: 20, // Add spacing between items
+    },
+    legendColor: {
+        width: 20,
+        height: 20,
+        marginRight: 5, // Adjust the spacing between color and text
+    },
+    legendText: {
+        fontSize: 16,
     },
     pageTitle: {
         textAlign: 'center',
@@ -156,30 +160,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 16,
     },
-    startPlanningButton: {
-        width: '100%',
-    },
-    backButton: {
-        width: '100%',
+    startSavingButton: {
+        minWidth: 200,
+        marginHorizontal: 8,
+        marginTop: 30,
+        alignSelf: 'center',
+        zIndex: 1,
     },
     buttonContainer: {
         marginVertical: 8,
     },
-    legend: {
-        marginTop: 20,
-    },
-    legendItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    legendColor: {
-        width: 20,
-        height: 20,
-        marginRight: 10,
-    },
-    legendText: {
-        fontSize: 16,
+    totalPaymentText: {
+        fontSize: 18,
+        fontWeight: 'bold', // Add bold styling
+        marginTop: 20, // Add marginTop for spacing
     },
 });
 

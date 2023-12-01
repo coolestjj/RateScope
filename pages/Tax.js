@@ -7,7 +7,7 @@ import { Header } from '@rneui/themed'; // Import Header from your library
 import SideMenu from "react-native-side-menu";
 import LeftMenu from "../UI/LeftMenu";
 import SvgComponent from './map';
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from 'react-native-dropdown-select-list';
 
 
 export default function RateScope() {
@@ -223,10 +223,11 @@ export default function RateScope() {
               data={category} 
               save="value"
               placeholder={selectedCategory}
-              boxStyles={{borderColor: "white"}}
-              inputStyles={{color:"white"}}
-              dropdownTextStyles={{color:"white"}}
-              dropdownStyles={{borderColor:"#99e2b4"}}
+              boxStyles={{borderColor: "white", backgroundColor:"white", width:160}}
+              inputStyles={{color:"#358f80", fontWeight: "bold"}}
+              dropdownTextStyles={{color:"#358f80", fontWeight: "bold"}}
+              dropdownStyles={{borderColor:"#99e2b4", backgroundColor:"white"}}
+              search={false}
             />
 
             {/* Second Dropdown for US States */}
@@ -235,14 +236,19 @@ export default function RateScope() {
               data={states} 
               save="value"
               placeholder={selectedState}
-              boxStyles={{borderColor: "white"}}
-              inputStyles={{color:"white"}}
-              dropdownTextStyles={{color:"white"}}
-              dropdownStyles={{borderColor:"#99e2b4"}}
+              boxStyles={{borderColor: "white", backgroundColor:"white", width:80}}
+              inputStyles={{color:"#358f80", fontWeight: "bold"}}
+              dropdownTextStyles={{color:"#358f80", fontWeight: "bold"}}
+              dropdownStyles={{borderColor:"#99e2b4", backgroundColor:"white"}}
+              maxHeight={80}
+              search={false}
             />
           </View>
 
-          <View style = {{ flex:1 }}><SvgComponent onPress={(val) => setSelectedState(val)} pressed={selectedState}/></View>
+          <View style = {{ flex: 1}}><SvgComponent onPress={(val) => {
+              setSelectedState(val);
+              setIsMenuOpen(false);
+          }} pressed={selectedState}/></View>
 
           <View style={styles.taxBox}>
             <Text style={styles.textTax1}>Tax:</Text>
@@ -259,6 +265,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    
   },
   title: {
     fontSize: 20,
@@ -271,7 +278,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginBottom: 20,
-    
   },
   taxRateText: {
     fontSize: 16,

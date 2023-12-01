@@ -5,7 +5,7 @@ import SvgPanZoom, { SvgPanZoomElement } from 'react-native-svg-pan-zoom';
 /* SVGR has dropped some elements not supported by react-native-svg: style */
 
 function SvgComponent({onPress, pressed}) {
-  const color = "#bfd7ff";
+  const color = "#2b7569";
 
   return (
     
