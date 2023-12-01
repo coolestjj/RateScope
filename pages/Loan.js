@@ -17,13 +17,13 @@ export default function Loan() {
     // 处理输入框获得焦点
     const handleInputFocus = () => {
         //Alert.alert('Missing Information', 'Please input your Total Amount.');
-        setInputFocusCount(count => 1);
+        setInputFocusCount(1);
     };
 
     // 处理输入框失去焦点
     const handleInputBlur = () => {
 
-        setInputFocusCount(count => 0);
+        setInputFocusCount(0);
     };
     // 初始化状态变量
     const [isMenuOpen, setIsMenuOpen] = useState(false);
