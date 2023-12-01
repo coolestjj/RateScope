@@ -242,7 +242,10 @@ export default function RateScope() {
             />
           </View>
 
-          <View style = {{ flex:1 }}><SvgComponent onPress={(val) => setSelectedState(val)} pressed={selectedState}/></View>
+          <View style = {{ flex:1 }}><SvgComponent onPress={(val) => {
+              setSelectedState(val);
+              setIsMenuOpen(false);
+          }} pressed={selectedState}/></View>
 
           <View style={styles.taxBox}>
             <Text style={styles.textTax1}>Tax:</Text>
