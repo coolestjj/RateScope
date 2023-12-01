@@ -240,6 +240,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         inputStyles={{color:"white"}}
         dropdownTextStyles={{color:"white"}}
         dropdownStyles={{borderColor:"#99e2b4"}}
+        search={false}
       />
       <Text style={{color:"white", margin:4}}>Plan</Text>
       <SelectList 
@@ -251,6 +252,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         inputStyles={{color:"white"}}
         dropdownTextStyles={{color:"white"}}
         dropdownStyles={{borderColor:"#99e2b4"}}
+        search={false}
       />
       <Text style={{color:"white", margin:4}}>Rate</Text>
       <SelectList 
@@ -262,6 +264,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         inputStyles={{color:"white"}}
         dropdownTextStyles={{color:"white"}}
         dropdownStyles={{borderColor:"#99e2b4"}}
+        search={false}
       />
       <Text style={{color:"white", margin:4}}>Type</Text>
       <SelectList 
@@ -273,6 +276,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         inputStyles={{color:"white"}}
         dropdownTextStyles={{color:"white"}}
         dropdownStyles={{borderColor:"#99e2b4"}}
+        search={false}
       />
 
       

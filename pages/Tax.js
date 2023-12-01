@@ -223,10 +223,11 @@ export default function RateScope() {
               data={category} 
               save="value"
               placeholder={selectedCategory}
-              boxStyles={{borderColor: "white", backgroundColor:"white"}}
+              boxStyles={{borderColor: "white", backgroundColor:"white", width:160}}
               inputStyles={{color:"#358f80", fontWeight: "bold"}}
               dropdownTextStyles={{color:"#358f80", fontWeight: "bold"}}
               dropdownStyles={{borderColor:"#99e2b4", backgroundColor:"white"}}
+              search={false}
             />
 
             {/* Second Dropdown for US States */}
@@ -235,11 +236,12 @@ export default function RateScope() {
               data={states} 
               save="value"
               placeholder={selectedState}
-              boxStyles={{borderColor: "white", backgroundColor:"white"}}
+              boxStyles={{borderColor: "white", backgroundColor:"white", width:80}}
               inputStyles={{color:"#358f80", fontWeight: "bold"}}
               dropdownTextStyles={{color:"#358f80", fontWeight: "bold"}}
               dropdownStyles={{borderColor:"#99e2b4", backgroundColor:"white"}}
               maxHeight={80}
+              search={false}
             />
           </View>
 
