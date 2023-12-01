@@ -12,6 +12,7 @@ const Overview = () => {
     const navigation = useNavigation();
     const route = useRoute();
 
+    const { expense } = route.params;
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
@@ -22,7 +23,11 @@ const Overview = () => {
 
     const {expenses} = useContext(ExpensesContext);
     const [series, setSeries] = useState([])
-    const [sliceColor, setSliceColor] = useState(['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'])
+    const [sliceColor, setSliceColor] = useState(['#FF0000', '#FFA500', '#FF1493',  '#FFFF00']);
+
+
+
+    
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -50,7 +55,7 @@ const Overview = () => {
 
     // Function to calculate the total payment from spendingData
     const calculateTotalPayment = () => {
-        return spendingData.reduce((total, item) => total + item.payment, 0);
+        return spendingData.reduce((total, item) => total + item.payment, 0) + expense;
     };
 
     if (loading) {
@@ -106,6 +111,7 @@ const Overview = () => {
                     <Text style={styles.totalPaymentText}>
                         Total Payment: ${calculateTotalPayment().toFixed(2)}
                     </Text>
+                    
 
                     <Button
                         buttonStyle={styles.startPlanningButton}
@@ -115,7 +121,7 @@ const Overview = () => {
                         iconRight
                         onPress={() => navigation.navigate('Saving')}
                         title='Start Planning'
-                        type='clear'
+                        type='solid'
                     />
 
                     <Button
@@ -126,7 +132,7 @@ const Overview = () => {
                         iconRight
                         onPress={() => navigation.navigate('Spending')}
                         title='Go Back'
-                        type='clear'
+                        type='solid'
                     />
                 </ScrollView>
             </View>
@@ -140,6 +146,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         padding: 16,
+    },
+    legend: {
+        flexDirection: 'row', // Align items horizontally
+        flexWrap: 'wrap', // Allow items to wrap to the next line
+        justifyContent: 'center', // Center items horizontally
+        marginTop: 20,
+    },
+    legendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginRight: 20, // Add spacing between items
+    },
+    legendColor: {
+        width: 20,
+        height: 20,
+        marginRight: 5, // Adjust the spacing between color and text
+    },
+    legendText: {
+        fontSize: 16,
     },
     pageTitle: {
         textAlign: 'center',
@@ -180,7 +206,15 @@ const styles = StyleSheet.create({
     },
     legendText: {
         fontSize: 16,
+        fontWeight: 'bold',
+    },
+    totalPaymentText: {
+        fontSize: 18,
+        fontWeight: 'bold', // Add bold styling
+        marginTop: 20, // Add marginTop for spacing
     },
 });
 
 export default Overview;
+
+    

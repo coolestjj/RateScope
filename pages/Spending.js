@@ -53,7 +53,7 @@ export default function Spending() {
             }}
                     style={styles.sideButton} type='clear'/>
             <Button title="Spending Overview" titleStyle={{color: '#67b99a'}} onPress={() => {
-                navigation.navigate('Overview');
+                navigation.navigate('Overview', { expense: expense });
                 setIsMenuOpen(false);
             }}
                     style={styles.sideButton} type='clear'/>
