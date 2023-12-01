@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         bottom: 20, // 距离底部20像素
     },
     bestProfitContainer: {
-        marginBottom: 100,
+        marginBottom: 70,
         marginLeft: 50,
     },
     bestProfitText: {
